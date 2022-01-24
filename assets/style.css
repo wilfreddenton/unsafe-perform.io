@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+video, img {
+  position: relative;
+  width: 100%;
+}
+
 #container {
   position: relative;
   max-width: 500px;
