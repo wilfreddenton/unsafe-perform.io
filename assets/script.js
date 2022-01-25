@@ -5,3 +5,5 @@ function fixFootnoteHrefs() {
 }
 
 fixFootnoteHrefs()
+
+hljs.highlightAll()

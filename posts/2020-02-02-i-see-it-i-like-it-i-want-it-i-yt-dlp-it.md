@@ -81,7 +81,7 @@ Deleting original file [MV] IU(아이유)_LILAC(라일락) [v7bnOxV4jAc].f313.we
 
 <video src="assets/lilac_loop.mp4" autoplay loop muted playsinline></video>
 
-I used `ffmpeg`, a dependency of `youtube-dl`, to make the loop above.
+I used `ffmpeg`, a dependency of `yt-dlp`, to make the loop above.
 
 ```plaintext
 ffmpeg -i input.mp4 -filter_complex "[0:v]reverse,fifo[r];[0:v][r] concat=n=2:v=1 [v]" -map "[v]" output.mp4
