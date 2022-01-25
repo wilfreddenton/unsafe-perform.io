@@ -119,32 +119,86 @@ html {
 body {
   font-family: 'Iosevka Aile Web', sans-serif;
 	font-size: 1.4rem;
-	line-height: 1.5;
+	line-height: 1.8;
 	background-color: #282a36;
-	color: #f8f8f2;
+	/*color: #f8f8f2;*/
+	color: hsla(60, 30%, 96%, 0.8);
+	margin: 0 1rem;
 }
 
 h1 {
 	font-size: 2.4rem;
+	margin-top: 8rem;
+}
+
+h2 {
+	margin-top: 8rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	color: #ff79c6;
 }
 
+ul {
+	padding: 0;
+}
+
+ul li {
+	list-style-type: none;
+}
+
 a {
 	color: #8be9fd;
+	text-decoration: none;
+}
+a:hover {
+	border-bottom: 1px solid;
+	margin-bottom: -1px;
 }
 
 code, pre {
+	color: #f8f8f2;
   font-family: 'Iosevka Term Web', monospace;
 	scrollbar-width: thin;
   scrollbar-color: #626483 #282936;
 }
 
+p code, .breadcrumb {
+	padding: 0.2rem 0.4rem;
+	border-radius: 3px;
+	background: rgba(80, 250, 123, 0.2);
+}
+
 video, img {
   position: relative;
   width: 100%;
+}
+
+nav {
+	margin: 3rem 0;
+}
+
+nav a {
+	display: inline-block;
+}
+
+footer {
+	margin-top: 12rem;
+}
+
+#title {
+	margin-bottom: 1px;
+	font-style: oblique;
+}
+
+#title a {
+	color: #ff79c6;
+}
+
+#about-summary {
+	font-size: 1.4rem;
+  color: #50fa7b;
+	margin-top: 0;
 }
 
 #container {
@@ -157,17 +211,26 @@ video, img {
   list-style-type: none;
 }
 
+#posts-list .posts-list-item {
+	margin-top: 1rem;
+	border-radius: 3px;
+}
+
 #posts-list .posts-list-item a {
   display: flex;
 }
 
 #posts-list .posts-list-item .posts-list-item-title {
+	font-weight: bold;
+	color: #ff79c6;
   flex-grow: 8;
 }
 
 #posts-list .posts-list-item .posts-list-item-time {
   flex-grow: 4;
   text-align: right;
+	color: #6272a4;
+	font-size: 1.2rem;
 }
 
 @media (max-width: 576px) {
