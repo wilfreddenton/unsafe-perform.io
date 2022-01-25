@@ -384,8 +384,7 @@ It's unfortunate that a seemingly trivial problem leads to such a complex soluti
 [^order]: [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
 
 [^examples]: Examples
-
-  - [Encoding Existential Types in TypeScript](https://rubenpieters.github.io/programming/typescript/2018/07/13/existential-types-typescript.html)
-  - [Typescript array of different generic types](https://stackoverflow.com/questions/51815782/typescript-array-of-different-generic-types)
-  - [How do I type parameterize a tuple?](https://stackoverflow.com/questions/46185023/how-do-i-type-parameterize-a-tuple)
+- [Encoding Existential Types in TypeScript](https://rubenpieters.github.io/programming/typescript/2018/07/13/existential-types-typescript.html)
+- [Typescript array of different generic types](https://stackoverflow.com/questions/51815782/typescript-array-of-different-generic-types)
+- [How do I type parameterize a tuple?](https://stackoverflow.com/questions/46185023/how-do-i-type-parameterize-a-tuple)
 

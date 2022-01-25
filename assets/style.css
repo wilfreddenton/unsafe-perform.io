@@ -114,6 +114,8 @@
 
 html {
 	font-size: 62.5%;
+	scrollbar-width: thin;
+  scrollbar-color: #626483 #282936;
 }
 
 body {
@@ -183,6 +185,7 @@ nav a {
 }
 
 footer {
+	font-size: 1.2rem;
 	margin-top: 12rem;
 }
 
@@ -193,6 +196,13 @@ footer {
 
 #title a {
 	color: #ff79c6;
+}
+
+#by-line {
+	font-size: 1.2rem;
+	font-weight: normal;
+  color: #50fa7b;
+	margin-top: 4rem;
 }
 
 #about-summary {
@@ -213,11 +223,11 @@ footer {
 
 #posts-list .posts-list-item {
 	margin-top: 1rem;
-	border-radius: 3px;
 }
 
 #posts-list .posts-list-item a {
   display: flex;
+  border-color: #50fa7b;
 }
 
 #posts-list .posts-list-item .posts-list-item-title {
@@ -231,6 +241,28 @@ footer {
   text-align: right;
 	color: #6272a4;
 	font-size: 1.2rem;
+}
+
+.footnote-definition {
+	margin-top: 1rem;
+	padding-left: 1.2rem;
+	font-size: 1.2rem;
+}
+
+.footnote-definition:first-of-type {
+	margin-top: 8rem;
+	border-top: 1px solid #50fa7b;
+	padding-top: 4rem;
+}
+
+.footnote-definition p {
+	margin: 0;
+	display: inline;
+}
+
+.footnote-definition ul {
+	margin-left: 1.2rem;
+	margin-top: 0;
 }
 
 @media (max-width: 576px) {
