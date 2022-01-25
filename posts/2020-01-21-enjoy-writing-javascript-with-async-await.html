@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Enjoy Writing JavaScript With Async/Await</title>
+    <base href="https://wilfreddenton.github.io/unsafe-perform.io/">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="assets/dracula.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <script type="text/javascript" src="assets/highlight.min.js"></script>
+    <script type="text/javascript" src="assets/script.js" async defer></script>
+  </head>
+  <body>
+    <div id="container">
+      <nav>
+  <a href="">Home</a>
+    <span class="breadcrumb">></span>
+    <a href="posts/">Posts</a>
+    <span class="breadcrumb">></span>
+    <a href="posts/2020-01-21-enjoy-writing-javascript-with-async-await.html">Jan 21, 2020</a>
+</nav>
+<section>
+  <h1>Enjoy Writing JavaScript With Async/Await</h1>
+<p>JavaScript has come a long way since the days of <a href="http://callbackhell.com/">callback hell</a>. Many libraries were introduced to help ease the pain but it wasn't until the introduction of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">promises</a> did things really start to improve. While promises solve the nesting issue, chaining them together is still an awkward way to compose a procedure.</p>
+<p>Now that <code>async/await</code> has full support in LTS versions of <code>node</code> as well as recent versions of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function#Browser_compatibility">all <em>modern</em> browsers</a>, JavaScript can be enjoyable to write. If you are targeting older platforms, <a href="https://babeljs.io/">Babel</a> can help by providing polyfills or by compiling your code to specific targets.</p>
+<h2>You Can't Erase History</h2>
+<p>While <code>async/await</code> does an excellent job of covering up the old blemishes, history cannot be erased. Callbacks and promises will still be used however sparingly.</p>
+<pre><code class="language-javascript">function sleep(ms) {
+  return new Promise(resolve =&gt; {
+    setTimeout(() =&gt; {
+      resolve(ms)
+    }, ms)
+  })
+}
+</code></pre>
+<p>In the example above, the familiar <code>setTimeout</code> function is being &quot;promisified&quot; to create a convenient <code>sleep</code> function. At the bottom &quot;layer&quot;, there's a call to the <code>resolve</code> function provided by the promise. <code>resolve</code> is mostly synonymous with <code>return</code>. Whatever value we <code>resolve</code>, in this case <code>ms</code>, can be thought of as the return value of the promise. Because <code>resolve</code> is invoked within the callback function of <code>setTimeout</code>, the promise will &quot;return&quot; after <code>ms</code> milliseconds. Historically, to synchronize this promise, we would use <code>sleep(ms).then(...)</code> but with <code>async/await</code> we can just <code>await sleep(ms)</code>. This layering/wrapping pattern can be used to &quot;modernize&quot; any legacy higher-order function. Suppose you want to use <code>fs.readFile</code>, wrap it in a promise, and then call it with <code>await</code>.</p>
+<h2>Composing Async Functions</h2>
+<pre><code class="language-javascript">// sync version
+function main() {
+  syncSleep(1000)
+  syncSleep(2000)
+  syncSleep(3000)
+}
+
+main()
+</code></pre>
+<pre><code class="language-javascript">// async version
+async function main() {
+  await sleep(1000)
+  await sleep(2000)
+  await sleep(3000)
+}
+
+main()
+</code></pre>
+<p>The first code block shows how normal synchronous code is composed into a procedure. This example is both fake in that  <code>syncSleep</code> does not exist and contrived in that you could just <code>syncSleep(6000)</code> if it did but go with it. The second block composes asynchronous functions and it's nearly identical to the first except for the addition of <code>async</code> and <code>await</code>. If you need to synchronize a promise or a function that includes <code>async</code> in its definition (also a promise under the hood), call it with the <code>await</code> keyword. Any function that contains <code>await</code>ed calls must include the <code>async</code> keyword in its definition.</p>
+<p>To prove that the sleeps in <code>main</code> take a total of 6 seconds to run we can write a timing mechanism.</p>
+<pre><code class="language-javascript">async function timed(action) {
+  console.log('running timed action...')
+  const start = Date.now()
+  await action()
+  console.log(`${Math.floor((Date.now() - start) / 1000)} seconds elapsed`)
+}
+</code></pre>
+<p>Because <code>timed</code> takes an async action, <code>await</code> is used to synchronize it. As <code>await</code> is used within the body of <code>timed</code>, it must include the <code>async</code> keyword in its definition. Now we can modify <code>main</code> to use <code>timed</code>.</p>
+<pre><code class="language-javascript">async function main() {
+  await timed(async () =&gt; {
+    console.log(await sleep(1000))
+    console.log(await sleep(2000))
+    console.log(await sleep(3000))
+  })
+}
+
+main()
+</code></pre>
+<p>The example groups the calls to <code>sleep</code> within an asynchronous anonymous function which is passed, as the async action, to <code>timed</code>. Running this produces the output:</p>
+<pre><code class="language-plaintext">running timed action...
+1000
+2000
+3000
+6 seconds elapsed
+</code></pre>
+<p>From the output it is clear that the calls to <code>sleep</code> are running synchronously and do not &quot;overlap&quot; in any way.</p>
+<h2>Running Async Functions Concurrently</h2>
+<p>Sometimes we don't want to run a set of async actions synchronously. Instead we'd like to compose them into a single async action that runs the sub-actions concurrently.</p>
+<p>Pretend that <code>sleep(1000)</code>, <code>sleep(2000)</code>, and <code>sleep(3000)</code> are all requests to some API that fetch data and have <code>ms</code> latency. The requests are totally independent so they can be performed concurrently. If we <code>await</code> each one sequentially like in the previous example, we are waiting unnecessarily long. As requests are typically IO bound, sending request concurrently provides a significant performance boost.</p>
+<p>We can do this easily with the extremely useful and oft forgotten <code>Promise.all</code> which takes a list of <code>await</code>able actions:</p>
+<pre><code class="language-javascript">async function main() {
+  await timed(async() =&gt; {
+    console.log(await Promise.all([
+      sleep(1000),
+      sleep(2000),
+      sleep(3000),
+    ]))
+  })
+}
+
+main()
+</code></pre>
+<p>Running this produces different output:</p>
+<pre><code class="language-plaintext">running timed action...
+[ 1000, 2000, 3000 ]
+3 seconds elapsed
+</code></pre>
+<p>Because the three requests (sleeps) are run concurrently, the total elapsed time is bounded by the request that takes the longest, in this case, 3 seconds. Notice that the result of <code>Promise.all</code> is a list of the return values of each sub-action. Destructuring makes this easy to handle:</p>
+<pre><code class="language-javascript">[r1, r2, r3] = Promise.all([a1, a2, a3])
+</code></pre>
+<h2>Exception Handling</h2>
+<p>Now that asynchronous code looks essentially the same as synchronous code we can use the previously irrelevant <code>try/catch/finally</code> construct.</p>
+<p>Let's make a new promise that again uses <code>setTimeout</code> but this time results in an error.</p>
+<pre><code class="language-javascript">function nightmare(ms) {
+  return new Promise((_, reject) =&gt; {
+    setTimeout(() =&gt; {
+      reject(ms)
+    }, ms)
+  })
+}
+</code></pre>
+<p><code>nightmare</code> is the same as <code>sleep</code> except that it uses <code>reject</code> instead of <code>resolve</code>. <code>reject</code> is to <code>throw</code> as <code>resolve</code> is to <code>return</code>.</p>
+<pre><code class="language-javascript">async function main() {
+  try {
+    await timed(async () =&gt; await nightmare(1000))
+  } catch (error) {
+    console.error(`error: ${error}`)
+  } finally {
+    console.log('always runs')
+  }
+}
+
+main()
+</code></pre>
+<p>Running the above produces:</p>
+<pre><code class="language-plaintext">running timed action...
+error: 1000
+always runs
+</code></pre>
+<p>The exception generated by <code>nightmare</code> bubbles up through the timing mechanism, up into <code>main</code> where it is caught and logged. The <code>console.log</code> in the <code>finally</code> block demonstrates that code in a <code>finally</code> will run regardless of whether or not the code in the <code>try</code> throws an exception.</p>
+<h2>JavaScript, Elegant?</h2>
+<p>JavaScript was one of the first languages I learned. Maturing as a developer while the language matured has been an edifying experience. As the community around the language became more knowledgable and skillful, the more elegant the language became and vice versa. Many times the community has been made fun of for rediscovering solutions to problems already solved by a host of other languages. While there is certainly truth to that, this constantly evolving environment was the perfect place for young developers to learn, experiment, and grow.</p>
+
+</section>
+      <footer>
+        <p>generated by <a href="https://github.com/wilfreddenton/patina">patina</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

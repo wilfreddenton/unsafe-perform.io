@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Leveraging Go&#x27;s Interfaces to Great Effect</title>
+    <base href="https://wilfreddenton.github.io/unsafe-perform.io/">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="assets/dracula.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <script type="text/javascript" src="assets/highlight.min.js"></script>
+    <script type="text/javascript" src="assets/script.js" async defer></script>
+  </head>
+  <body>
+    <div id="container">
+      <nav>
+  <a href="">Home</a>
+    <span class="breadcrumb">></span>
+    <a href="posts/">Posts</a>
+    <span class="breadcrumb">></span>
+    <a href="posts/2020-02-01-leveraging-go-s-interfaces-to-great-effect.html">Feb 01, 2020</a>
+</nav>
+<section>
+  <h1>Leveraging Go's Interfaces to Great Effect</h1>
+<p>Suppose you're developing a web server. One of the request handlers performs logging, authentication, HTTP requests, and database queries. It's provided these capabilities by four structs passed in as arguments and looks something like this:</p>
+<pre><code class="language-go">func createProductHandler(
+	l *logger,
+	a *auth,
+	c *client,
+	d *db
+) *response {
+	// ...
+}
+</code></pre>
+<p>As the handler deals specifically with creating products, it only uses a few of the methods provided by this set of structs. As a result, the function signature doesn't tell us about the specific behavior of the handler or the side effects it produces. Worse, its coupled to the implementation of the structs. If we were to change their names, split one into multiple, or move methods from one to another, we'd have to modify the handler as well.</p>
+<p>With interfaces, we can solve these problems by grouping actions into &quot;effects&quot;.</p>
+<pre><code class="language-go">type loggerEff interface { ... }
+type authEff interface { ... }
+type baseHandlerEff interface {
+	loggerEff,
+	authEff,
+}
+type shopifyEff interface { ... }
+type productQueriesEff interface { ... }
+
+type createProductEff interface {
+	baseHandlerEff,
+	shopifyEff,
+	productQueriesEff,
+}
+
+func createProductHandler(
+	ctx createProductEff
+) *Response {
+	// ...
+}
+</code></pre>
+<p>The handler's signature now contains a great deal of <strong>semantic information</strong>. It specifies the side effects the procedure will produce and gives the reader a general understanding of the handler's purpose. The business logic has been <strong>decoupled</strong> from the implementation details. The handler no longer has to change if we modify the structs that implement the interfaces. We created a way to <strong>inject dependencies</strong> into the handler, greatly reducing the burden of argument passing. We can <strong>mock</strong> the interfaces which significantly improves the testability of the handler.</p>
+<p>To further understand the pattern, let's explore a runnable example. A web server example would require a number of dependencies that, when wired together, create an opinionated &quot;framework&quot;. This would <em>incorrectly</em> imply that the pattern is tied to a framework and relegated to web servers. Instead, let's create a fun little guessing game. You can find the full code <a href="https://github.com/wilfreddenton/gophects">here</a>.</p>
+<p>The game asks the player to input a number of <code>turns</code>, a <code>low</code> number, and a <code>high</code> number. Once the game has been configured, it will randomly select a hidden number between <code>low</code> and <code>high</code>. It’s the player's job to guess the number in <code>turns</code> attempts.</p>
+<p>Consider the effects that could help us here. We need some way to interact with the user. These actions can be grouped in what we'll call the console effect. We also need a way to generate random numbers. Let’s call that the random effect. Notice that we've zeroed in on the parts of the app that perform IO.</p>
+<p>Let's specify the console effect.</p>
+<pre><code class="language-go">type consoleEff interface {
+	putStr(string)
+	putStrLn(string)
+	getLine(string) string
+}
+</code></pre>
+<p><code>putStr</code> and <code>putStrLn</code> provide ways to write a string to the console. With <code>getLine</code> we can write a prompt <code>s</code> to the console and allow the player to input a string which is returned by the function.</p>
+<p>How might we mock these actions?</p>
+<pre><code class="language-go">type consoleMock struct {
+	in  []string
+	out string
+}
+</code></pre>
+<p><code>in</code> and <code>out</code> are representations of <code>stdin</code> and <code>stdout</code>. <code>in</code> is a list of strings which mocks the series of inputs provided by the player. <code>out</code> is a string which will contain the output of the program.</p>
+<pre><code class="language-go">func (p *consoleMock) putStr(s string) {
+	p.out += s
+}
+</code></pre>
+<p><code>putStr</code> simply appends the provided string to <code>out</code>.</p>
+<pre><code class="language-go">func (p *consoleMock) putStrLn(s string) {
+	p.putStr(s + &quot;\n&quot;)
+}
+</code></pre>
+<p><code>putStrLn</code> is the same as <code>putStr</code> except it tacks on a newline.</p>
+<pre><code class="language-go">func (p *consoleMock) getLine(s string) string {
+	in := p.in[0]
+	p.putStrLn(fmt.Sprintf(&quot;%s%v&quot;, s, in))
+	p.in = p.in[1:]
+	return in
+}
+</code></pre>
+<p><code>getLine</code> pops off mocked player input from the head of <code>in</code>, writes the input prefixed with the prompt <code>s</code> to <code>out</code>, and returns the input.</p>
+<p>While we're still not certain how the entire program will look, we know we need a way to read in settings from the user.</p>
+<pre><code class="language-go">func getTurns(ctx consoleEff) int {
+	for {
+		turnsS := ctx.getLine(&quot;turns: &quot;)
+		turns, err := strconv.Atoi(turnsS)
+		if err != nil {
+			ctx.putStrLn(turnsS + &quot; is not an int&quot;)
+		} else if turns &lt; 1 {
+			ctx.putStrLn(&quot;turns must be &gt; 0&quot;)
+		} else {
+			return turns
+		}
+	}
+}
+</code></pre>
+<p>The code itself is pretty straight forward. The thing to notice is that the function takes a context object that implements <code>consoleEff</code>. Inside the body we can see the <code>consoleEff</code> actions being used.</p>
+<p>Since we've already written the mock implementation of <code>consoleEff</code> we can now write a test for <code>getTurns</code>. If we were adhering to TDD we should have written the test first but its easier to explain after you've seen the implementation.</p>
+<pre><code class="language-go">func assert(t *testing.T, g, e interface{}) {
+	if g != e {
+		t.Error(g)
+	}
+}
+
+func TestGetTurns(t *testing.T) {
+	ctx := &amp;consoleMock{in: []string{&quot;t&quot;, &quot;0&quot;, &quot;1&quot;}}
+	turns := getTurns(ctx)
+	assert(t, turns, 1)
+	assert(t, ctx.out, `turns: t
+t is not an int
+turns: 0
+turns must be &gt; 0
+turns: 1
+`)
+}
+</code></pre>
+<p>First we define an <code>assert</code> function to help us compare expected values and results. In a serious application we'd want something more robust but it will do for this exercise. The test begins by defining the context. As <code>getTurns</code> only expects <code>consoleEff</code>, we can satisfy the constraint with an instance of <code>consoleMock</code>. We provide the constructor with a list of mock player input. One element from this list will be supplied to <code>getTurns</code> each time it calls <code>ctx.getLine</code>. We can make an assertion about the result but because we mocked the console effect, we can also make an assertion about the side effect.</p>
+<p>The implementations of <code>getLow</code>, <code>getHigh</code>, and their tests is very similar to what was described above so let's continue to the next part.</p>
+<p>Now that we have these three functions implemented and tested we can use them to <code>setup</code> the game:</p>
+<pre><code class="language-go">type settings struct {
+	turns int
+	lo    int
+	hi    int
+}
+
+func setup(ctx consoleEff) *settings {
+	ctx.putStrLn(&quot;Guessing Game&quot;)
+
+	turns := getTurns(ctx)
+	lo := getLow(ctx)
+	hi := getHigh(ctx, lo)
+	return &amp;settings{turns, lo, hi}
+}
+</code></pre>
+<p>Notice how this function passes the context to <code>getTurns</code>,  <code>getLow</code>, and <code>getHigh</code>. When &quot;contextualizing&quot; child functions, the child's constraints must be a subset of the parent's.</p>
+<p>The test for <code>setup</code> is similar to the ones we've already written:</p>
+<pre><code class="language-go">func TestSetup(t *testing.T) {
+	ctx := &amp;consoleMock{in: []string{&quot;5&quot;, &quot;1&quot;, &quot;10&quot;}}
+	r := setup(ctx)
+	assert(t, r.turns, 5)
+	assert(t, r.lo, 1)
+	assert(t, r.hi, 10)
+	assert(t, ctx.out, `Guessing Game
+turns: 5
+low: 1
+high: 10
+`)
+}
+</code></pre>
+<p>Now that we have a way for the player to configure the game we can implement the game itself. We know the game needs to generate a random number so let's start by specifying the random effect.</p>
+<pre><code class="language-go">type randEff interface {
+	randomR(int, int) int
+}
+</code></pre>
+<p>This effect is simpler than <code>consoleEff</code>, only specifying a single action which selects a random number from within a range. Here's a mock implementation of it:</p>
+<pre><code class="language-go">type randMock struct {
+	n int
+}
+
+func (r *randMock) randomR(lo, hi int) int {
+	r.n = (lo + hi) / 2
+	return r.n
+}
+</code></pre>
+<p><code>randMock</code> keeps track of the most recently generated &quot;random&quot; number in <code>n</code>. This mock implementation just returns the average of <code>lo</code> and <code>hi</code>. It could have been implemented many different ways; for example, <code>lo + 1</code> or <code>hi - 1</code>. The important thing is that it <em>deterministically</em> produces the value so we can rely on our tests running the same every time.</p>
+<p>Now that we have an implementation for <code>randEff</code> we can write the <code>play</code> portion of our game.</p>
+<pre><code class="language-go">type playEff interface {
+	consoleEff
+	randEff
+}
+
+func play(ctx playEff, s *settings) {
+	n := ctx.randomR(s.lo, s.hi)
+	i := s.turns
+
+	for i &gt; 0 {
+		gS := ctx.getLine(&quot;guess: &quot;)
+		g, err := strconv.Atoi(gS)
+		if err != nil {
+			ctx.putStrLn(gS + &quot; is not an int&quot;)
+			continue
+		}
+
+		if g &lt; n {
+			ctx.putStrLn(&quot;higher&quot;)
+		} else if g &gt; n {
+			ctx.putStrLn(&quot;lower&quot;)
+		} else {
+			ctx.putStrLn(gS + &quot; is correct&quot;)
+			return
+		}
+
+		i -= 1
+	}
+
+	ctx.putStrLn(&quot;game over&quot;)
+}
+</code></pre>
+<p>I'll leave it to you to read and understand the business logic. Notice that <code>play</code> takes a context that implements <code>playEff</code>. This is different from what we've seen before. Interface inheritance allows us to compose <code>consoleEff</code> and <code>randEff</code> to create <code>playEff</code>. At a glance, we know that <code>play</code> will be interacting with the player and generating random numbers.</p>
+<p>Now let's write the tests for <code>play</code>:</p>
+<pre><code class="language-go">func TestPlayWin(t *testing.T) {
+	ctx := struct {
+		*consoleMock
+		*randMock
+	}{&amp;consoleMock{in: []string{&quot;x&quot;, &quot;3&quot;, &quot;7&quot;, &quot;5&quot;}}, &amp;randMock{}}
+	r := &amp;settings{3, 1, 10}
+	play(ctx, r)
+	assert(t, ctx.n, 5)
+	assert(t, ctx.out, `guess: x
+x is not an int
+guess: 3
+higher
+guess: 7
+lower
+guess: 5
+5 is correct
+`)
+}
+
+func TestPlayLoss(t *testing.T) {
+	ctx := struct {
+		*consoleMock
+		*randMock
+	}{&amp;consoleMock{in: []string{&quot;x&quot;, &quot;3&quot;, &quot;7&quot;}}, &amp;randMock{}}
+	r := &amp;settings{1, 1, 10}
+	play(ctx, r)
+	assert(t, ctx.out, `guess: x
+x is not an int
+guess: 3
+higher
+game over
+`)
+}
+</code></pre>
+<p>We test two sequences of user input, one that results in a win, and one a loss. The structure of these tests is the same as the ones we've seen previously except that an instance of <code>randMock</code> must also be provided to the context. Struct inheritance allows us to easily create a context object that exposes all the methods of the composed structs.</p>
+<p>The game has now been implemented and tested! By abstracting the IO actions into effects we purified the business logic making it immediately testable. The last thing to do is write the IO implementations of our effects and then compose it all together in a <code>main</code> function.</p>
+<pre><code class="language-go">type consoleIO struct{}
+
+func (p *consoleIO) putStr(s string) {
+	fmt.Print(s)
+}
+
+func (p *consoleIO) putStrLn(s string) {
+	fmt.Println(s)
+}
+
+func (p *consoleIO) getLine(s string) string {
+	fmt.Print(s)
+	var in string
+	fmt.Scanln(&amp;in)
+	return in
+}
+</code></pre>
+<p>We decided with <code>consoleMock</code> how the output should look so we just imitate it in <code>consoleIO</code>.</p>
+<pre><code class="language-go">type randIO struct{}
+
+func (r *randIO) randomR(lo, hi int) int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(hi-lo) + lo
+}
+</code></pre>
+<p>In <code>randomR</code>, we use the current time to seed the pseudorandom number generator. We could have also sourced cryptographically secure random bytes from <code>/dev/urandom</code> using the <code>crypto/rand</code> package but that's beyond the scope of this example.</p>
+<p>As these are very simple implementations they do not necessitate unit tests; however, it is of course best practice to unit test whenever possible.</p>
+<p>Finally we can implement <code>main</code>:</p>
+<pre><code class="language-go">func main() {
+	ctx := struct {
+		*consoleIO
+		*randIO
+	}{&amp;consoleIO{}, &amp;randIO{}}
+
+	s := setup(ctx)
+	play(ctx, s)
+}
+</code></pre>
+<p>Notice how similar this is to the tests. The critical difference is that we used the IO implementations instead of the mock.</p>
+<p>While certainly a contrived example, I hope it was an illustrative one. The primary takeaway should be that <em>interfaces are powerful</em>. In this example, they provided us a way to mock, inject dependencies, decouple business logic from implementation details, and make function definitions more semantically meaningful. In real-life applications you will come up with more interesting effects and implementations. Because they are completely decoupled from business logic you can package them up into an effect library for use across all your projects.</p>
+<p>There are a few open source packages that can assist with this pattern. You could use something like <a href="https://github.com/golang/mock">gomock</a> to generate mock implementations of your effects. You may find yourself constructing very large context <code>structs</code> and something like <a href="https://github.com/google/wire">wire</a> could help automate that. As these types of libraries involve the use of reflection and/or code generation I tend to avoid them; however, they may be necessary for larger projects.</p>
+<p>If you're a Haskeller you might be thinking that this all feels very familiar. That's because the pattern came out of my experiences working on <a href="https://hackage.haskell.org/package/mtl"><code>mtl</code></a> style codebases. Go's interfaces pale in comparison to Haskell's typeclasses but they can still be used to great effect.</p>
+
+</section>
+      <footer>
+        <p>generated by <a href="https://github.com/wilfreddenton/patina">patina</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

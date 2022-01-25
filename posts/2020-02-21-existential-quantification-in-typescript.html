@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Existential Quantification in TypeScript</title>
+    <base href="https://wilfreddenton.github.io/unsafe-perform.io/">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="assets/dracula.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <script type="text/javascript" src="assets/highlight.min.js"></script>
+    <script type="text/javascript" src="assets/script.js" async defer></script>
+  </head>
+  <body>
+    <div id="container">
+      <nav>
+  <a href="">Home</a>
+    <span class="breadcrumb">></span>
+    <a href="posts/">Posts</a>
+    <span class="breadcrumb">></span>
+    <a href="posts/2020-02-21-existential-quantification-in-typescript.html">Feb 21, 2020</a>
+</nav>
+<section>
+  <h1>Existential Quantification in TypeScript</h1>
+<p>While working on a TypeScript project, I encountered a scenario that seemed impossible to describe with the language. I needed a function that could take a list of action/handler tuples, <code>[Promise&lt;A&gt;, (a: A) =&gt; void][]</code>, and apply each handler to the the <code>await</code>ed result of the action. Something like this:</p>
+<pre><code class="language-typescript">async function applyMany&lt;A&gt;(ahts: [Promise&lt;A&gt;, (a: A) =&gt; void][]): Promise&lt;void&gt;
+</code></pre>
+<p>The problem is that <code>A</code> constrains every tuple in the list. <code>applyMany</code> should <em>only</em> care about the compatibility of the action and the handler within each tuple.</p>
+<p>The solution is <a href="https://wiki.haskell.org/Existential_type">Existential Quantification</a>. It can be used to &quot;hide&quot; types that are <em>not</em> meaningful externally. Unfortunately, TypeScript does not explicitly support existential quantification.<sup class="footnote-reference"><a href="#no-support">1</a></sup> It is possible however, to &quot;wrap&quot; over the extra type with clever use of closure and type inference.<sup class="footnote-reference"><a href="#clever">2</a></sup> Examples of this cleverness were initially difficult for me to decipher, in part, due to my shaky understanding of existential quantification.</p>
+<p>While researching the topic, I came across a <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#existentially-quantified-data-constructors">section</a> in the GHC user guide that briefly discusses existential quantification in the context of Haskell. Coincidentally, the example it presents is isomorphic to my problem. I decided to implement the example in TypeScript as an exercise. Before working through this example, let's cover some fundamentals.</p>
+<h2>Generic Functions in TypeScript</h2>
+<pre><code class="language-typescript">function id&lt;A&gt;(a: A): A {
+  return a
+}
+</code></pre>
+<p>The identity function accepts a value of <em>any</em> type <code>A</code> and returns it unmodified.</p>
+<pre><code class="language-typescript">id&lt;number&gt;(1) // 1
+id&lt;string&gt;('foo') // 'foo'
+id&lt;boolean&gt;(true) // true
+</code></pre>
+<p>We know intuitively that manually supplying the types is redundant. The compiler is able to infer <code>A</code> from the argument <code>a</code>:</p>
+<pre><code class="language-typescript">id(1) // 1
+id('foo') // 'foo'
+id(true) // true
+</code></pre>
+<p><code>id</code> can also be implemented as an anonymous function:</p>
+<pre><code class="language-typescript">const id = &lt;A&gt;(a: A): A =&gt; a
+</code></pre>
+<p>Put another way:</p>
+<pre><code class="language-typescript">const id: &lt;A&gt;(a: A) =&gt; A = (a) =&gt; a
+</code></pre>
+<p>More clearly:</p>
+<pre><code class="language-typescript">type F = &lt;A&gt;(a: A) =&gt; A
+
+const id: F = (a) =&gt; a
+</code></pre>
+<p>Typically when we see a generic type alias, the type variables are on the left side of the <code>=</code> like so:</p>
+<pre><code class="language-typescript">type F&lt;A&gt; = (a: A) =&gt; A
+</code></pre>
+<p>Now, we're in a situation where <code>A</code> must always be supplied. It is no longer possible for the compiler to infer the type from the argument. As a result, <code>id</code> must be implemented for every type:</p>
+<pre><code class="language-typescript">const idNumber: F&lt;number&gt; = (a) =&gt; a
+const idString: F&lt;string&gt; = (a) =&gt; a
+const idBoolean: F&lt;boolean&gt; = (a) =&gt; a
+// ...
+</code></pre>
+<p>This mirrors the original problem:</p>
+<pre><code class="language-typescript">type AHT&lt;A&gt; = [Promise&lt;A&gt;, (a: A) =&gt; void]
+
+const ahtNumber: AHT&lt;number&gt; = [Promise.resolve(0), (a) =&gt; console.log(a + 1)]
+const ahtString: AHT&lt;string&gt; = [Promise.resolve('foo'), (a) =&gt; console.log(a.length)]
+const ahtBool: AHT&lt;boolean&gt; = [Promise.resolve(true), (a) =&gt; console.log(!a)]
+// ...
+</code></pre>
+<p><code>&lt;A&gt;</code> must move to the right of the <code>=</code> so that an <code>AHT</code> is constructible <em>for all</em> types <code>A</code>. From what we've seen, functions provide a way to perform this transformation.</p>
+<h2>A Simple Existential Type</h2>
+<p>Let's come back to the Haskell example.</p>
+<pre><code class="language-haskell">data Foo = forall a. MkFoo a (a -&gt; Bool)
+         | Nil
+</code></pre>
+<p><code>Foo</code> has two data constructors: <code>MkFoo</code>, and <code>Nil</code>.</p>
+<pre><code class="language-haskell">MkFoo :: forall a. a -&gt; (a -&gt; Bool) -&gt; Foo
+Nil   :: Foo
+</code></pre>
+<p><code>MkFoo</code> is clearly the function of interest. <code>forall a.</code> &quot;existentializes&quot; the type variable <code>a</code> removing it from the left side of the <code>=</code>‌. The use of <code>forall</code> to <strong>exist</strong>entially quantify a type variable is the source of much confusion. To avoid introducing an additional keyword <code>exists</code>, the implementers leveraged a recontextualisation of De Morgan's laws within type theory that describes an isomorphism between <code>exists</code> and <code>forall</code>.<sup class="footnote-reference"><a href="#forall">3</a></sup> Barring all that ivory tower stuff, I just think of it like this:</p>
+<blockquote>
+<p><code>MkFoo</code> constructs a <code>Foo</code> <code>forall</code> types <code>a</code>.</p>
+</blockquote>
+<p>Notice that this is a restatement of what was said about the <code>AHT</code> type in the previous section.</p>
+<p>With the <code>a</code> extistentialized, a <a href="https://wiki.haskell.org/Heterogenous_collections">heterogeneous list</a> of <code>Foo</code>s can be created.</p>
+<pre><code class="language-haskell">[MkFoo 3 even, MkFoo 'c' isUpper, Nil] :: [Foo]
+</code></pre>
+<p>In the first <code>Foo</code>, <code>A</code> is <code>Int</code>. In the second, <code>A</code> is <code>Char</code>. How can this be achieved in TypeScript? Let's start by defining <code>Foo</code>.</p>
+<pre><code class="language-typescript">type Foo = MkFoo | null
+</code></pre>
+<p>We don't need to define <code>Nil</code> because TypeScript (unfortunately) already has a <code>null</code> type. Next we need to define <code>MkFoo</code>. Starting from the bottom...</p>
+<pre><code class="language-typescript">type MkFoo_&lt;A&gt; = [A, (a: A) =&gt; boolean]
+</code></pre>
+<p><code>MkFoo_</code> establishes the relationship between the value and the handler. Next, we need to move the <code>&lt;A&gt;</code> to the other side of the <code>=</code> by wrapping <code>MkFoo</code> in a function.</p>
+<pre><code class="language-typescript">type MkFoo = &lt;R&gt;(run: &lt;A&gt;(_: MkFoo_&lt;A&gt;) =&gt; R) =&gt; R
+</code></pre>
+<p>Well, there's actually two functions. Let's analyze this layer by layer.</p>
+<pre><code class="language-typescript">&lt;A&gt;(_: MkFoo_&lt;A&gt;) =&gt; R
+</code></pre>
+<p>The inner function infers <code>A</code> from the <code>MkFoo_</code> argument. As it is a function, it must return something. An additional type variable <code>R</code> is used to avoid constraining what can be returned. With only this layer, <code>R</code> would appear on the left of the <code>=</code> so an additionally layer is necessary.</p>
+<pre><code class="language-typescript">&lt;R&gt;(run: &lt;A&gt;(_: MkFoo_&lt;A&gt;) =&gt; R) =&gt; R
+</code></pre>
+<p>This function is able to infer <code>R</code> from the inner layer <code>run</code>. You may recognize the &quot;shape&quot; <code>((_ -&gt; r) -&gt; r)</code> which is common in <a href="https://en.wikipedia.org/wiki/Continuation-passing_style">continuation passing style</a> programming. This <a href="https://rubenpieters.github.io/programming/typescript/2018/07/13/existential-types-typescript.html">blog post</a> explains existential quantification in TypeScript through the lens of CPS.</p>
+<p>Now we need a constructor for <code>MkFoo</code>:</p>
+<pre><code class="language-typescript">const mkFoo = &lt;A&gt;(mkFoo_: MkFoo_&lt;A&gt;): MkFoo =&gt; (run) =&gt; run(mkFoo_)
+</code></pre>
+<p>This wraps a <code>MkFoo_</code> in the layers just described. By accepting a <code>run</code> function, a <code>MkFoo</code> provides the ability for an external entity to &quot;reach in&quot; and safely interact with the hidden <code>MkFoo_</code>. It's a bit like the <a href="https://youtu.be/Sci99roo2iI"><em>What's in the Box?</em> challenge</a>.</p>
+<p>Finally, we can create the list of <code>Foo</code>s:</p>
+<pre><code class="language-typescript">const foos = [
+  mkFoo([3, (a) =&gt; a % 2 === 0]),
+  mkFoo(['c', (a) =&gt; a === a.toUpperCase()]),
+  null
+]
+</code></pre>
+<p>Notice that we don't have to explicitly fill in any type variables. In the first <code>Foo</code>, <code>A</code> is inferred to be <code>number</code>. In the second, <code>A</code> is inferred to be <code>string</code>. <code>A</code> is now &quot;closed over&quot; but <code>R</code> still needs filling.</p>
+<pre><code class="language-typescript">const f = (foo: Foo): boolean =&gt; {
+  if (foo === null) return false
+  return foo(([v, h]) =&gt; h(v))
+}
+
+foos.map(f) // [false, false, false]
+</code></pre>
+<p>Because the return type of <code>f</code> is <code>boolean</code>, <code>R</code> is filled in with <code>boolean</code>. The <code>run</code> function <code>([v, h]) =&gt; h(v)</code>, specified to return <code>R</code>, must also return <code>boolean</code>. <code>h(v)</code> returns <code>boolean</code> so the constraint is satisfied. The relationship between <code>v</code> and <code>h</code> is already encoded within <code>foo</code> so they're left unspecified.</p>
+<p>We've shown that existential quantification <em>is</em> possible in TypeScript. You can play around with this example <a href="https://www.typescriptlang.org/play/#code/C4TwDgpgBAsg1gMQPZIPoB4CCA+KBeKAbUwBooAKAQwC4pMBKfXAIxQBsJKA7AXQCg+oSLEQp8UdACVs5AE4BXLrSwzUteMjQrGeXJJ16BAYyRcAzsCgBbUUnEryNzWpHPt620woKuBqD8dbVHoBIWhNcQ0xAB8oLnk2NmNTCygAMxQzcUI+KGtbckIAZjIqP0ooAFIoACZ8PAIABh56Elz8zUKAciMu0spy+oJKADpgJABVMEhZAGFKMwhyeha2vPjEvn4+E3NLNPFyDKRaTXpaViQObi8Ab3aASwOjsQaCDbZGWQhgeVkudKUNiLdrfX7-dIociFABuZAAFi0vPDyDD6CEAL4CY5mEZWShgI70IA">here</a>.</p>
+<p>After implementing <code>Foo</code>, I was able to easily transform it into a solution for my initial problem. A new problem arose. I was curious about all the things I could do with existential types. Fortunately, my enthusiasm was curbed after reading this <a href="https://medium.com/@jonathangfischoff/existential-quantification-patterns-and-antipatterns-3b7b683b7d71">blog post</a> on the dangers of type level magic. The author outlines some good and bad uses of existential quantification. He pointed to the <a href="https://hackage.haskell.org/package/foldl-1.4.6/docs/Control-Foldl.html"><code>foldl</code></a> package as an example of how to properly employ the technique. It defines the <code>Fold</code> data type:</p>
+<pre><code class="language-haskell">data Fold a b = forall x. Fold (x -&gt; a -&gt; x) x (x -&gt; b)
+</code></pre>
+<p>If you're unfamiliar with folds, for now just think of them as a more generic form of list reduction.</p>
+<p>I decided to implement <code>Fold</code> as well as a tiny portion of the library in TypeScript to really solidify all that I'd learned. Let's walk through it together.</p>
+<h2>Implementing Fold in TypeScript</h2>
+<p><code>Fold_</code> is defined just like <code>MkFoo_</code>:</p>
+<pre><code class="language-typescript">type Fold_&lt;X, A, B&gt; = { step: (x: X, a: A) =&gt; X; initial: X; extract: (x: X) =&gt; B }
+</code></pre>
+<p><code>X</code> is the type of the accumulator value. <code>A</code> is the type of the elements in the structure being folded. <code>B</code> is the type of the value resulting from the application of the fold. Many <code>Fold</code>s fill in all the variables with the same type. For example, the <code>sum</code> fold specifies them all to be <code>number</code>. But as we'll see, making these type variables distinct enables the creation of more powerful folds.</p>
+<p>Next, we move <code>&lt;X&gt;</code> to the right of the <code>=</code>:</p>
+<pre><code class="language-typescript">type Fold&lt;A, B&gt; = &lt;R&gt;(run: &lt;X&gt;(_: Fold_&lt;X, A, B&gt;) =&gt; R) =&gt; R
+</code></pre>
+<p>This closely resembles the pattern used when implementing <code>Foo</code>. We're already familiar with the <code>sum</code> fold, so let's implement that now.</p>
+<pre><code class="language-typescript">const id = &lt;B&gt;(b: B): B =&gt; b
+
+const sum: Fold&lt;number, number&gt; = (run) =&gt;
+  run({
+    step: (x, a) =&gt; x + a,
+    initial: 0,
+    extract: id,
+  })
+</code></pre>
+<p>This looks familiar. It's almost exactly the same as the <code>mkFold</code> constructor defined earlier. This makes sense because it <em>constructs</em> a <code>Fold</code>. As mentioned previously, all the types involved in this fold are <code>number</code>, hence <code>Fold&lt;number, number&gt;</code>. By setting <code>initial</code> to <code>0</code>, the compiler can infer that <code>X</code> is also a <code>number</code>. <code>extract</code> simply returns the accumulator value.</p>
+<p>We're still missing one thing: the function that applies a <code>Fold</code> to a structure:</p>
+<pre><code class="language-typescript">const fold = &lt;A, B&gt;(f: Fold&lt;A, B&gt;, fa: Foldable&lt;A&gt;): B =&gt;
+  f(({ step, initial, extract }) =&gt; extract(fa.reduce(step, initial)))
+</code></pre>
+<p>Notice how similar this is to the <code>f</code> function defined in the <code>Foo</code> example. It takes a <code>Fold</code> <code>f</code> and applies it to a <code>Foldable</code> <code>fa</code>. Wait, what's a <code>Foldable</code>? You may be wondering why I keep using the word &quot;structure&quot; instead of just saying list. Well, what if we want to fold a linked list or a binary tree? Basically any structure that contains elements of a specific type can be folded. The structure just has to have a <code>reduce</code> method. Conveniently, the <code>[]</code> type already does. Let's define a <code>Foldable</code> interface and then create a new <code>Tree</code> structure that implements it.</p>
+<pre><code class="language-typescript">type Reduce&lt;A&gt; = &lt;X&gt;(step: (x: X, a: A) =&gt; X, init: X) =&gt; X
+
+interface Foldable&lt;A&gt; {
+  reduce: Reduce&lt;A&gt;
+}
+</code></pre>
+<p>In the definition of <code>Reduce</code>, notice how <code>A</code> is on the left of the <code>=</code> and <code>X</code> is on the right. If <code>A</code> and <code>X</code> were on the left then we'd be saying that a <code>Foldable</code> must specify both <code>A</code> and <code>X</code>. If they were on the right, we'd be saying that both <code>A</code> and <code>X</code> can be inferred from <code>step</code> and <code>init</code>. What we want to say is that the structure implementing <code>Foldable</code> should fill in <code>A</code> with the type of its elements and that <code>X</code> is inferred from the arguments. Thus, <code>A</code> on the left, <code>X</code> on the right.</p>
+<p>Next, let's define a <code>Tree</code>. A Haskell implementation might look something like this:<sup class="footnote-reference"><a href="#tree">4</a></sup></p>
+<pre><code class="language-haskell">data Tree a = Empty | Leaf a | Node (Tree a) a (Tree a)
+</code></pre>
+<p>This data type is recursive in that a <code>Node</code>, one of the <code>Tree</code>'s data constructor, takes a left <code>Tree</code> and a right <code>Tree</code>. TypeScript does not support recursive type aliases but it does have &quot;recursive back references within interface types.&quot;<sup class="footnote-reference"><a href="#recursive">5</a></sup></p>
+<p>This example was provided by the creator of TypeScript <a href="https://github.com/ahejlsberg">himself</a>.</p>
+<p>Unfortunately we can't quite replicate the elegance of the Haskell definition in TypeScript because we need a <code>class</code> on which to define <code>reduce</code>.</p>
+<pre><code class="language-typescript">type Root&lt;A&gt; = Empty | Leaf&lt;A&gt; | Node&lt;A&gt;
+
+class Tree&lt;A&gt; implements Foldable&lt;A&gt; {
+  root: Root&lt;A&gt;
+
+  constructor(root: Root&lt;A&gt; = { tag: 'EMPTY' }) {
+    this.root = root
+  }
+
+  // reduce: ...
+}
+
+interface Empty {
+  tag: 'EMPTY'
+}
+
+interface Leaf&lt;A&gt; {
+  tag: 'LEAF'
+  value: A
+}
+
+interface Node&lt;A&gt; {
+  tag: 'NODE'
+  left: Tree&lt;A&gt;
+  value: A
+  right: Tree&lt;A&gt;
+}
+</code></pre>
+<p>A <a href="https://mariusschulz.com/blog/tagged-union-types-in-typescript">tagged union type</a> is used to describe the <code>Root</code> of the <code>Tree</code>.</p>
+<pre><code class="language-typescript">  // ...
+  reduce: Reduce&lt;A&gt; = (step, init) =&gt; {
+    const root = this.root
+    switch (root.tag) {
+      case 'NODE':
+        return root.right.reduce(step, step(root.left.reduce(step, init), root.value))
+      case 'LEAF':
+        return step(init, root.value)
+      default:
+        // EMPTY
+        return init
+    }
+  }
+  // ...
+</code></pre>
+<p><code>reduce</code> performs a specific action for each of the different root types. The <code>NODE</code> case is clearly the interesting one. It essentially performs an in-order traversal.</p>
+<p>Now that we have two different foldable structures, <code>Tree&lt;A&gt;</code> and <code>&lt;A&gt;[]</code>, let's test out the <code>sum</code> fold on them.</p>
+<pre><code class="language-typescript">const testArray = [1, 2, 2, 3]
+
+const testTree = new Tree&lt;number&gt;({
+  tag: 'NODE',
+  left: new Tree({
+    tag: 'NODE',
+    left: new Tree({
+      tag: 'LEAF',
+      value: 1,
+    }),
+    value: 2,
+    right: new Tree(),
+  }),
+  value: 2,
+  right: new Tree({
+    tag: 'LEAF',
+    value: 3,
+  }),
+})
+
+fold(sum, testArray) // 8
+fold(sum, testTree) // 8
+</code></pre>
+<p>So we've proven that the implementation of <code>Fold</code> can work on various structures but we haven't tried folds that have different concrete types for <code>X</code>, <code>A</code>, and <code>B</code>.</p>
+<pre><code class="language-typescript">const all = &lt;A&gt;(p: (a: A) =&gt; boolean): Fold&lt;A, boolean&gt; =&gt; (run) =&gt;
+  run({
+    step: (x, a) =&gt; x &amp;&amp; p(a),
+    initial: true,
+    extract: id,
+  })
+</code></pre>
+<p><code>all</code> takes a predicate <code>p</code> and returns a <code>Fold&lt;A, boolean&gt;</code>. If <em>all</em> the applications of the predicate to each element in the structure result in <code>true</code>, the overall result is <code>true</code> otherwise <code>false</code>. The compiler can infer <code>X</code> from the value of <code>initial</code> and <code>A</code> from the predicate.</p>
+<pre><code class="language-typescript">const nub = &lt;A&gt;(): Fold&lt;A, A[]&gt; =&gt; (run) =&gt;
+  run({
+    step: (x, a) =&gt; x.add(a),
+    initial: new Set&lt;A&gt;(),
+    extract: (x) =&gt; [...x],
+  })
+</code></pre>
+<p><code>nub</code> folds a structure into a list without duplicate elements.  <code>X</code> is inferred to be <code>Set&lt;A&gt;</code> from the <code>initial</code> value‌. Because sets prevent duplicates from being added and the TypeScript/JavaScript implementation of <code>Set</code> maintains insertion order<sup class="footnote-reference"><a href="#order">6</a></sup>, <code>extract</code> can simply convert the accumulator to a list. Note that this fold is a function even though it doesn't take any arguments. This is because it has a type variable and values cannot have type variables.</p>
+<p>Let's put these folds to use:</p>
+<pre><code class="language-typescript">fold(all((a) =&gt; a &gt; 0), testArray) // true
+fold(all((a) =&gt; a &gt; 0), testTree) // true
+fold(all((a) =&gt; a &lt; 0), testArray) // false
+fold(all((a) =&gt; a &lt; 0), testTree) // false
+
+fold(nub(), testArray) // [1, 2, 3]
+fold(nub(), testTree) // [1, 2, 3]
+</code></pre>
+<p>All this code can be viewed in the <a href="https://github.com/wilfreddenton/fold-ts"><code>fold-ts</code></a> repo. Maybe you'll find some use for it. If you'd like to contribute additional folds please submit a PR!</p>
+<p>If this type level trickery still confuses you, there are plenty of other examples.<sup class="footnote-reference"><a href="#examples">7</a></sup></p>
+<h2>Existential Crisis</h2>
+<p>It's unfortunate that a seemingly trivial problem leads to such a complex solution. So far, the only two &quot;mainstream&quot; languages that have explicit implementations of existential quantification are Haskell and Scala. It would be greatly beneficial for a language like TypeScript, one that is accessible to many, to introduce the concept to the programming masses. It's a powerful feature and one that should be in every developers playbook or at least on their radar.</p>
+<div class="footnote-definition" id="no-support"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://github.com/Microsoft/TypeScript/issues/14466">Existential Type?</a></p>
+</div>
+<div class="footnote-definition" id="clever"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://github.com/Microsoft/TypeScript/issues/14466#issuecomment-338045331">Closure Workaround</a></p>
+</div>
+<div class="footnote-definition" id="forall"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://stackoverflow.com/questions/10753073/whats-the-theoretical-basis-for-existential-types">What's the theoretical basis for existential types?</a></p>
+</div>
+<div class="footnote-definition" id="tree"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://hackage.haskell.org/package/foldl-1.4.6/docs/Control-Foldl.html#t:Foldable">Foldable</a></p>
+</div>
+<div class="footnote-definition" id="recursive"><sup class="footnote-definition-label">5</sup>
+<p><a href="https://github.com/microsoft/TypeScript/issues/3496#issuecomment-128553540">Recursive Back References Within Interface Types</a></p>
+</div>
+<div class="footnote-definition" id="order"><sup class="footnote-definition-label">6</sup>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a></p>
+</div>
+<div class="footnote-definition" id="examples"><sup class="footnote-definition-label">7</sup>
+<p>Examples</p>
+<ul>
+<li><a href="https://rubenpieters.github.io/programming/typescript/2018/07/13/existential-types-typescript.html">Encoding Existential Types in TypeScript</a></li>
+<li><a href="https://stackoverflow.com/questions/51815782/typescript-array-of-different-generic-types">Typescript array of different generic types</a></li>
+<li><a href="https://stackoverflow.com/questions/46185023/how-do-i-type-parameterize-a-tuple">How do I type parameterize a tuple?</a></li>
+</ul>
+</div>
+
+</section>
+      <footer>
+        <p>generated by <a href="https://github.com/wilfreddenton/patina">patina</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
