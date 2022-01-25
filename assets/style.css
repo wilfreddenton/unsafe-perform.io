@@ -231,7 +231,6 @@ footer {
 }
 
 #posts-list .posts-list-item .posts-list-item-title {
-	font-weight: bold;
 	color: #ff79c6;
   flex-grow: 8;
 }
