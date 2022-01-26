@@ -121,7 +121,7 @@ html {
 body {
   font-family: 'Iosevka Aile Web', sans-serif;
 	font-size: 1.4rem;
-	line-height: 1.8;
+	line-height: 1.9;
 	background-color: #282a36;
 	/*color: #f8f8f2;*/
 	color: hsla(60, 30%, 96%, 0.8);
@@ -231,7 +231,6 @@ footer {
 }
 
 #posts-list .posts-list-item .posts-list-item-title {
-	font-weight: bold;
 	color: #ff79c6;
   flex-grow: 8;
 }
