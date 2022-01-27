@@ -51,7 +51,6 @@ id(true) // true
 </code></pre>
 <p>More clearly:</p>
 <pre><code class="language-typescript">type F = &lt;A&gt;(a: A) =&gt; A
-
 const id: F = (a) =&gt; a
 </code></pre>
 <p>Typically when we see a generic type alias, the type variables are on the left side of the <code>=</code> like so:</p>
@@ -73,7 +72,7 @@ const ahtBool: AHT&lt;boolean&gt; = [Promise.resolve(true), (a) =&gt; console.lo
 </code></pre>
 <p><code>&lt;A&gt;</code> must move to the right of the <code>=</code> so that an <code>AHT</code> is constructible <em>for all</em> types <code>A</code>. From what we've seen, functions provide a way to perform this transformation.</p>
 <h2>A Simple Existential Type</h2>
-<p>Let's come back to the Haskell example.</p>
+<p>Let's look at a Haskell example.</p>
 <pre><code class="language-haskell">data Foo = forall a. MkFoo a (a -&gt; Bool)
          | Nil
 </code></pre>
@@ -81,7 +80,7 @@ const ahtBool: AHT&lt;boolean&gt; = [Promise.resolve(true), (a) =&gt; console.lo
 <pre><code class="language-haskell">MkFoo :: forall a. a -&gt; (a -&gt; Bool) -&gt; Foo
 Nil   :: Foo
 </code></pre>
-<p><code>MkFoo</code> is clearly the function of interest. <code>forall a.</code> &quot;existentializes&quot; the type variable <code>a</code> removing it from the left side of the <code>=</code>‌. The use of <code>forall</code> to <strong>exist</strong>entially quantify a type variable is the source of much confusion. To avoid introducing an additional keyword <code>exists</code>, the implementers leveraged a recontextualisation of De Morgan's laws within type theory that describes an isomorphism between <code>exists</code> and <code>forall</code>.<sup class="footnote-reference"><a href="#forall">3</a></sup> Barring all that ivory tower stuff, I just think of it like this:</p>
+<p><code>MkFoo</code> is clearly the function of interest. <code>forall a.</code> &quot;existentializes&quot; the type variable <code>a</code> removing it from the left side of the <code>=</code>. The use of <code>forall</code> to <strong>exist</strong>entially quantify a type variable is the source of much confusion. To avoid introducing an additional keyword <code>exists</code>, the implementers leveraged a recontextualisation of De Morgan's laws within type theory that describes an isomorphism between <code>exists</code> and <code>forall</code>.<sup class="footnote-reference"><a href="#forall">3</a></sup> Barring all that ivory tower stuff, I just think of it like this:</p>
 <blockquote>
 <p><code>MkFoo</code> constructs a <code>Foo</code> <code>forall</code> types <code>a</code>.</p>
 </blockquote>
