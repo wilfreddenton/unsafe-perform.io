@@ -22,7 +22,7 @@ The pandemic hit and suddenly I had no use for Laptops and [iPads](posts/2020-01
 
 This is the year that Apple capitulated to pro-sumer demands with the release of the 2021 MacBook Pro lineup. They touted huge boosts in GPU performance which, as a gamer, was exciting. But then I realized Windows [barely](https://www.youtube.com/watch?v=OhESSZIXvCA) runs on ARM. I prayed Apple had found a way to keep Bootcamp alive. But it was dead. And so was my dream of owning a MacBook again.
 
-Microsoft launched Halo Infinite. Being from Ohio, Halo is in my DNA. I played Halo: CE on my first MacBook in middle school. After that, because I never owned an XBox, I just read the books and kept up with the story. Now, as a newly minted member of the [PCMR](https://en.wikipedia.org/wiki/PC_Master_Race), I was ready to play some Halo.
+Microsoft launched Halo Infinite. Being from Ohio, Halo is in my DNA. I played Halo: CE on my first MacBook in middle school. After that, because I never owned an XBox, I just read the books and kept up with the story. Now, as a newly minted member of the [PCMR](https://en.wikipedia.org/wiki/PC_Master_Race), I was ready to play some Halo. Ironically, I've learned to use a controller because that's how Halo is meant to be played. I'm a console peasant afterall.
 
 While Infinite lacks content, has a poorly designed monetization scheme, and suffers from terrible desync issues despite being made by one of the world's largest server providers--the gameplay is tight. It is intensely satisfying.
 
