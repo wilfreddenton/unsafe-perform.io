@@ -1,7 +1,5 @@
 # iPad Pro: My Daily Driver
 
-<video src="//i.imgur.com/IWEfb3F.mp4" autoplay loop muted playsinline></video>
-
 The 2018 12.9" iPad Pro has been my daily driver for over a year. While imperfect, the experience far exceeded my expectations and I may never purchase a laptop again.
 
 Awhile back, I realized my MacBook Pro wasn't being used to its full potential. 99% of the time only Firefox and Emacs were running. When it came time for a new machine, I purchased a mid-tier ThinkPad which was significantly cheaper than the available MacBook Pros but comparable in specs. During its period of use, I tried three different operating systems: Ubuntu, Manjaro, and NixOS. While each has its pros and cons, the primary issue I had with all of them was the web browsing experience. Mixing and matching hardware with software can never result in the kind of performance I'd come to expect living in Apple's walled garden.

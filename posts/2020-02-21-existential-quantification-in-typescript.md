@@ -52,7 +52,6 @@ More clearly:
 
 ```typescript
 type F = <A>(a: A) => A
-
 const id: F = (a) => a
 ```
 
@@ -86,7 +85,7 @@ const ahtBool: AHT<boolean> = [Promise.resolve(true), (a) => console.log(!a)]
 
 ## A Simple Existential Type
 
-Let's come back to the Haskell example.
+Let's look at a Haskell example.
 
 ```haskell
 data Foo = forall a. MkFoo a (a -> Bool)
@@ -100,7 +99,7 @@ MkFoo :: forall a. a -> (a -> Bool) -> Foo
 Nil   :: Foo
 ```
 
-`MkFoo` is clearly the function of interest. `forall a.` "existentializes" the type variable `a` removing it from the left side of the `=`‌. The use of `forall` to **exist**entially quantify a type variable is the source of much confusion. To avoid introducing an additional keyword `exists`, the implementers leveraged a recontextualisation of De Morgan's laws within type theory that describes an isomorphism between `exists` and `forall`.[^forall] Barring all that ivory tower stuff, I just think of it like this:
+`MkFoo` is clearly the function of interest. `forall a.` "existentializes" the type variable `a` removing it from the left side of the `=`. The use of `forall` to **exist**entially quantify a type variable is the source of much confusion. To avoid introducing an additional keyword `exists`, the implementers leveraged a recontextualisation of De Morgan's laws within type theory that describes an isomorphism between `exists` and `forall`.[^forall] Barring all that ivory tower stuff, I just think of it like this:
 
 > `MkFoo` constructs a `Foo` `forall` types `a`.
 
