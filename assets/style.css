@@ -264,6 +264,10 @@ footer {
 	margin-top: 0;
 }
 
+.utterances {
+	margin-top: 8rem;
+}
+
 @media (max-width: 576px) {
   #posts-list .posts-list-item a {
     flex-direction: column;
