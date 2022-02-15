@@ -13,9 +13,9 @@ https://www.bitfinex.com/wp-2019-05.pdf
 
 https://coinmarketcap.com/currencies/unus-sed-leo/
 
-# Don't Give Bitfinex The Coins
+# Bitfinex
 
-For those who have the ability to ignore cyptocurrency news, I am referring to the DOJ press release from February 8th 2022: *Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency*[^DOJ-press-release].
+For those who have the ability to ignore cyptocurrency news, the United States Department of Justice published a press release from February 8th 2022: *Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency*[^DOJ-press-release].
 
 > According to court documents, Lichtenstein and Morgan allegedly conspired to launder the proceeds of 119,754 bitcoin that were stolen from Bitfinex’s platform after a hacker breached Bitfinex’s systems and initiated more than 2,000 unauthorized transactions.
 
@@ -29,28 +29,44 @@ If this was heart-wrenching for Bitfinex users to read, the update published fou
 
 > After much thought, analysis, and consultation, we have arrived at the conclusion that losses must be generalized across all accounts and assets. This is the closest approximation to what would happen in a liquidation context. Upon logging into the platform, customers will see that they have experienced a generalized loss percentage of 36.067%. In a later announcement we will explain in full detail the methodology used to compute these losses[^security-breach-update].
 
-Bitfinex had determined that the roughly 100,000 Bitcoins yoinked from their coffers amounted to 36% of their total holdings and spread that loss across all their users. Suppose a user `Shrek2onDVD` had 3BTC on Bitfinex before the hack. When they were finally able to access their account again, they would see a balnce of roughly 2BTC. This is regardless of their specific Bitcoin being part of the ~100,000 that was stolen.
+Bitfinex had determined that the roughly 100,000 Bitcoins yoinked from their coffers amounted to 36% of their total holdings and spread that loss across all their users. They gave them a "haircut" so to speak. Suppose a user `ShrekIsLove` had 3BTC on Bitfinex before the hack. When they were finally able to access their account again, they would see a balnce of roughly 2BTC. This is regardless of their specific Bitcoin being part of the ~100,000 that was stolen or not.
 
-Enter, BFX token. The first of three tokens used by Bitfinex to wash their hands of the hack.
+Enter, BFX token. The first of three tokens created by Bitfinex to wash their hands of the hack.
 
 > In place of the loss in each wallet, we are crediting a token labeled BFX to record each customer’s discrete losses. Tokens will be distributed without release or waiver. The BFX tokens will remain outstanding until redeemed in full by Bitfinex or possibly exchanged—upon the creditor’s request and Bitfinex’s acceptance—for shares of iFinex Inc[^security-breach].
 
-Note the term "discrete losses" as opposed to "continuous losses". This means they took a snapshot of the current BTC price in USD and used that to calculate each user's losses. So from Bitfinex'es perspective our friend `Shrek2onDVD` lost roughly $600 not 1BTC. It seems that `1BTC == 1 BTC` until shit hits the fan.
+Note the term "discrete losses" as opposed to "continuous losses". This means they took a snapshot of the current BTC price in USD and used that to calculate each user's losses. So from Bitfinex'es perspective our friend `ShrekIsLove` lost roughly $600 not 1BTC. It seems that `1BTC == 1BTC` until shit hits the fan. In 2021 Bitcoin reached an all time high of nearly $69,000.
 
-So now `Shrek2onDVD`'s account balances should report roughly 2BTC and 600BFX.
+So now `ShrekIsLove`'s account balances should report roughly 2BTC and 600BFX. They have three options going forward:
 
-Additionally, they introduced the possibility of BFX holders being able to convert their tokens to shares of iFinex, Bitfinex'es parent company. iFinex also owns Tether. More on that later.
+1. Hold their BFX tokens in the hopes that Bitfinex would redeem them for the full amount,
+2. sell them for cents on the dollar to other traders,
+3. or convert them to iFinex shares. 
 
-`Shrek2onDVD` was presented with three possible paths. Hold their BFX tokens in the hopes that Bitfinex would redeem them for the full amount, sell them for cents on the dollar to other traders, or convert them to iFinex shares. The BFX tokens which, originally pegged to $1.00, were now trading at cents on the dollar. You can think of the price as traders' confidence that Bitfinex would recover the stolen funds and repurchase the BFX tokens for $1.00. If it was trading at $0.50 that can be seen as traders believing there's a 50% chance that Donkey gets turned back into a human. By selling for cheap, `Shrek2onDVD` is taking on the burden of the loss and waiving any rights they had to recovered funds in the future. Bitfinex was redeeming BFX tokens for $1.00 but at a slow rate [^redemption-slow]. So it seemed to `Shrek2onDVD` that the best option was the convert to equity.
-
-Because spending any amount of money to buy back these BFX tokens was unpallatable to Bitfinex, they offered a second path. BFX holders could convert their tokens to shares of iFinex, Bitfinex'es parent company. iFinex also owns Tether. More on that later. I'll be using iFinix in place of Bitfinex for the rest of the article. This conversion has no upfront cost for iFinex. To incentivise users to convert they introduced the second of the three tokens: Recovery Right Token [RRT][^rrt].
+Bitfinex was redeeming BFX tokens but at a slow rate [^redemption-slow]. As a result, they were traded for around 30 cents on the dollar[^30-cents]. Sellers wanted to recoup a portion of their losses and be done with the ordeal whereas buyers and holders were betting that iFinex would repurchase the tokens for the full dollar amount. iFinex partnered with a company called BankToTheFuture to create a Special Purpose Vehicle [SPV], which I assume must be a rocket that takes those onboard to the moon, to convert BFX tokens into equity[^spv]. iFinex wanted their users to convert as this would reduce the number of BFX tokens they were obligated to redeem regardless of the recovery of stolen funds. To push users in this direction they introduced the second of three tokens called the Recovery Right Token [RRT]. 
 
 > If subscribed on or before October 7, 2016, each investor will get 1 RRT for each BFX token exchanged for shares;
 > If subscribed after October 7, 2016, and on or before October 31, 2016, each investor will get ½ an RRT for each BFX token exchanged for shares;
 > If subscribed after October 31, 2016, and on or before November 30, 2016, each investor will get ¼ an RRT for each BFX token exchanged for shares; and,
-> If subscribed after November 30, 2016, no RRTs will be delivered.
+> If subscribed after November 30, 2016, no RRTs will be delivered[^rtt].
 
-After reading this FOMO enducing post `Shrek2onDVD` immediately converted their BFX to iFinex shares and received RRTs. Their account balances report 2BTC, 0BFX, and 600RRT.
+This FOMO based scheme incentivised users to convert to shares quickly. The longer users held their BFX in the hopes of redemption, the fewer RRTs they'd receive if they ended up converting. If the stolen coins were recovered, iFinex promised to repurchase any remaining BFX tokens first, and then repurchase the RRTs. If a user thought it unlikely that their BFX tokens would be redeemed before a recovery of funds, then the RRTs looked almost identical.
+
+*We continue by going through the specific user story how he's a US citizen and a basic level account and how that influences his decision making and the hoops he had to jump through.
+
+Users who were taking advantage of Bitfinex's lack of KYC[^no-kyc] were limited to these first two paths. BankToTheFuture has a KYC process so users who were pseudonymous would need to come out of the shadows to convert their tokens[^bttf-kyc].
+
+Unfortunately for them, they got baited. Once enough of these users took the equity and RRTs, waiving their rights to pre-recovery redemption, iFinex bought up all the remaining BFX tokens for the full $1.00 price and patted themselves on the back[^100-redemption]. The users who held their BFX tokens had their discrete losses recouped and those who bought more BFX tokens could have recouped their continuous losses and perhaps even made a significant profit--💎🙌.
+
+> A combination of factors has led to this seminal moment for Bitfinex, including a dramatic uptick in equity conversions; record operating results in March; and, the decision to reduce our reserves in favor of this opportunity. We are tremendously grateful to all of our customers and new shareholders for helping us get to this point. By the end of this week, we will be sending notes directly to our shareholders with more information about what to expect in the coming months.
+
+So what can `ShrekIsLove` do now?
+
+iFinex is also the owner of Tether. Tether is a stablecoin pegged to $1.00. Tether is supposed to be redeemable for $1.00 
+
+I find it a bit odd since not only did they issue a bunch of unregulated securities to wash their hands of the hack they also print tether like J-Pow is working there.
+
+It's going to be some time before we can say "It's all ogre now".
 
 Just like BFX tokens these RRTs were also tradeable[^RRT-tradeable].
 
@@ -119,4 +135,14 @@ Ironic that the government now has to decide whether to give a company that's co
 
 [^RRT-tradeable]: [RRT Exchange Trading Enabled](https://www.bitfinex.com/posts/153)
 
+[^30-cents]: [What do with BFX tokens? (Reddit Post)](https://www.reddit.com/r/BitcoinMarkets/comments/4x68rk/what_do_with_bfx_tokens_is_there_anything_that/)
+
+[^no-kyc]: [Verification](https://support.bitfinex.com/hc/en-us/articles/115003424209-Verification-Frequently-asked-questions-FAQ-)
+
 [^redemption-slow]: [Redemption of 5.00% of BFX Tokens](https://www.bitfinex.com/posts/193)
+
+[^100-redemption]: [100% Redemption of Outstanding BFX Tokens](https://www.bitfinex.com/posts/198)
+
+[^spv]: [Special Purpose Vehicle (SPV) Opportunities ](https://www.bitfinex.com/posts/147)
+
+[^bttf-kyc]: [Who can use BnkToTheFuture.com?](https://bnktothefuture.freshdesk.com/support/solutions/articles/9000164098-who-can-use-bnktothefuture-com-)
