@@ -87,19 +87,30 @@ Again, I do not know how a user like `ShrekIsLove` would have felt about this be
 
 I'll leave it up to the reader to make their own opinion.
 
-At this point in the story, all of the US citizens are out of the token game. BFX tokens were bought up and no longer exist. And all US citizens were forced to sell their RRTs or no longer have access to them.
+Fast forward to April 2019. iFinex, never one to miss a chance to entertain was caught up in another scandal. They had entrusted $850 million of Bitfinex's reserves to a Panamanian pseudo-bank called Crypto Capital. Polish authorities discovered that Crypto Capital had been laundering money for its customers. Their list of customers included Columbian drug cartels. Their assets were seized including the $850 million iFinex sent them for safe keeping.
 
-Well, not quite all tokens. If you've ever ventured into the cryptosphere you've probably heard of iFinex's most notorious token--Tether. Tether is a stablecoin that is pegged to the dollar. This means that the price of Tether should always be $1.00.
+Left without a way to service customer withdrawals, iFinex dipped into the Tether [USDT] reserves. Tether is a stablecoin pegged to the dollar, meaning the price of Tether should always be very close to $1.00. This is typically achieved by printing X Tethers when X dollars are deposited and burning X Tethers when X dollars are withdrawn. In other words, they keep a 1:1 reserve of dollars. iFinex has never proven that they truly kept the reserve 1:1 and when they suffered this siezure of funds the New York Attorney General Letitia James jumped at the chance to take a peek inside Tether's vaults.
 
-Tether is used because it's convenient. Many many people hold tether especially during downturns in the market. If the space lost confidence it could be disaterous.
+The AG accused iFinex of taking $850 million out of the tether reserve and moving it into the Bitfinex reserve and no longer keeping a one to one reserve[^ag-gg]. This is incredibly significant because Tether is the single most important catalyst for cryptocurrency markets. USDT trading pairs account for nearly $60 billion dollars in 24h volume. It's circulating supply is currently 78 billion[^cmc-tether]. Like many commodoties, Bitcoin is often priced in dollars. For users and exchanges located in other parts of the world and/or without access to US banking, Tether and other dollar pegged stablecoins, enable their cryptocurrency trading. In this heavily correlated market where coins often rise and fall together, Tether is a "stable" place for traders to temporarily store their value.
 
-In 2019 one of iFinex's "banks" had their assets seized. Including 850 million of Bitfinex's cash. To keep the exchange afloat they borrowed from the tether reserves.
+If investors were to lose confidence in iFinex, Tether could "un-tether" from the dollar and crash in value. Anyone holding Tethers would try desperately to sell for blue chip cryptos like Bitcoin and Ethereum. A Tether crisis does *not* necessitate a market crash but it is certainly a possibility. Important market infrastructure like exchanges and DeFi applications could break down turning users into bag holders. This could spook investors, causing them to pull out of the market entirely. Additionally, if the mass printing of Tethers that's occured over the past couple years has been the primary propelant for the market reaching astronomical heights, assuming the rocketship hasn't left the atmosphere? It will fall back to earth.
 
-NYAg steps in. Tether says but we changed the terms of service.
+If it is fraudulant, the best thing for the market in the long run is the collapse of Tether and iFinex. The market will rebuild on solid foundation and eventually earn back investor trust and enthusiasm. Scarier than the thought of a market crash is the idea that everyone knows something sketchy is going on but due to the conveniences Tether provides, we look the other way. Right now, Tether is Schrödinger’s Coin. We don't want the vault to be empty, so we don't look in it.
 
-To learn more about Tether I highly recommend reading this Bloomberg [article](https://www.bloomberg.com/news/features/2021-10-07/crypto-mystery-where-s-the-69-billion-backing-the-stablecoin-tether)
+The New York Attorney General is so far the first person in a position of power to try and open the vault. But iFinex was prepared with a defense:
 
-Runs token sale of LEO to recapitalize.
+> Tether updated its terms of service to make clear that reserves could include loans to affiliates, and did so before the line of credit transaction that is at the heart of this case. This disclosure gave anyone holding or considering buying tether the opportunity to take their money elsewhere if they so chose, defeating any allegation of fraud[^court-doc].
+
+iFinex updated the Tether terms of service to say that the reserves could contain debt owed by Bitfinex. And then they essentially replaced the 850 million USD in the Tether reserve with 850 million BFX tokens. Even though this is iFinex admitting that Tether reservers are not backed, Tether did not lose its peg and there was no crisis.
+
+In a show of defiance and a way for recapitalize, iFinex ran what is known as an initial exchange offering [IEO]. This is when an exchange sells what's known as a utility token to its customers. Despite everything we've discussed, their customers were happy to bail out the company again and purchased $1 billion worth of tokens.
+
+The token is called UNOS SED LEO [LEO] which took iFinex a couple paragraphs to explain in the whitepaper:
+
+> Our company motto, Unus Sed Leo, is a Latin citation from Aesop’s fable, "The Sow and the Lioness." The fable (in short) details how a sow brags about how many children she has and then asks the lioness if she only had one child. The lioness replies "One, but a lion."
+> This ethos of quality over quantity and individual strength extends across several elements of iFinex, from being a privately-owned company to our recruitment and operational infrastructure. It is also an ideal that binds together persons linked to our company, from team members to shareholders, from communities to individual supporters[^leo-whitepaper].
+
+"Quality over quantity" seems somewhat antithetical to their philosophy on tokens.
 
 LEOs are like BFXs on steroids.
 
@@ -114,21 +125,23 @@ The constant reduction in supply of the tokens and the demand for them based on 
 
 These are similar to a stock buyback and in theory should boost the price of the coin significantly and provide profit to users who helped recapitalize iFinex in the initial sale.
 
+In February 2021 Tether agreed to pay an $18.5 million fine and walked away without having to admit wrongdoing. This was most likely not the outcome the AG desired. But she did force them to provide a transparency report. Now on the official Tether website there is a breakdown of the reserves. Actual hard cash now only making up about 6% of the reserves and almost 50% of the reserves composed of "commercial paper"[^opacity]. I wonder if any of it was issued by Charmin. And that's the problem, not only does nobody know the issuers of the debt but this information did not come from a proper financial audit but instead is the "assurance opinion" of a company called Moore Cayman.
+
+US Citizens were not able to participate in the sale and cannot trade the token.??
+
+This brings us to today:
+
 ![leo price](assets/leo-price.png)
 
 ![rrt price](assets/leo-price.png)
 
-Notice how in both these graphs the price gets a significant boost in January a month before the DOJ announcement. Smells like insider trading to me.
+Both RRTs and LEOs spiked on the announcement that the DOJ had control of the stolen funds. Buyers of these tokens are betting that the DOJ will give the coins to Bitfinex and Bitfinex will redeem the outstanding RRTs and buy up a large amount of LEOs. Why should they give them the coins? They were not their coins to begin with. Those 120,000 coins worth $70 million in 2016 are now worth almost $5 billion dollars. iFinex snapshotted their users so why shouldn't the DOJ snapshot them? If the DOJ is really serious about not allowing "cryptocurrency to be a safe haven for money laundering or a zone of lawlessness within our financial system[^DOJ-press-release]" that has at best indirectly contributed to money laundering internationally and at worst laundered money themselves. It's weird to me that people think the federal government will give billions of dollars in assets to a company that has sold 3 different unregulated deb instruments and prints Tether like J-Pow works there.
 
-So people are really betting that iFinex will receive the coins from the DOJ. I believe this outcome to be unlikely.
-
-> Today, federal law enforcement demonstrates once again that we can follow money through the blockchain, and that we will not allow cryptocurrency to be a safe haven for money laundering or a zone of lawlessness within our financial system...[^DOJ-press-release]
+While I won't go so far as to say that iFinex has operated with malicious intent, it is clear that they have always prioritized the survival of their business and the creation of wealth for themselves over the wellbeing of their customers and the global economy. Justice would be to find the users who had their Bitcoin forcefully exchanged for BFX and return the coins directly to them. However, because many of those customers did not have to go through KYC/AML process before using Bitfinex this path may be an impossible one. By giving the coins to Bitfinex that benefits the non-US citizens who are still holding RRTs as well as those who purchased LEO, the most avid users of the exchange and speculators. I do not think this helps the people who were actually harmed by the hack.
 
 If this is true then the DOJ has a massive bone to pick with iFinex. Their lax KYC/AML rules on their exchange most certainly lead to tax evasion and money laundering. Their Tether stablecoin has been proven to be used for money laundering. Every time iFinex is hit by a crisis they solve it buy selling unregulated debt instruments and they print Tether like J-Pow is working there. Focusing on the two miscreants who somehow ended up with 120,000 Bitcoins is a mistake. Go after the real threat to the economy.
 
 While I won't go so far as to say iFinex operated with malicious intent I cannot imagine that their actions are "all good" in the eyes of the Department of Justice. Those who have speculated on RRTs and LEOs should be careful. I'm not confident enough to take either side of the bet all I know is it's going to be some time before we can say "It's all ogre now".
-
-> As of November 30, 2016, the total number of RRTs issued and outstanding is equal to 30,199,822.40.
 
 [^DOJ-press-release]: [Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency](https://www.justice.gov/opa/pr/two-arrested-alleged-conspiracy-launder-45-billion-stolen-cryptocurrency)
 
@@ -142,7 +155,7 @@ While I won't go so far as to say iFinex operated with malicious intent I cannot
 
 [^rrt]: [Bitfinex Recovery Right Tokens](https://blog.bitfinex.com/announcements/bitfinex-recovery-right-tokens/)
 
-[^RRT-tradeable]: [RRT Exchange Trading Enabled](https://www.bitfinex.com/posts/153)
+[^rrt-terms]: [Recovery Right Token (RRT) Terms](https://www.bitfinex.com/legal/token-terms/rrt)
 
 [^30-cents]: [What do with BFX tokens? (Reddit Post)](https://www.reddit.com/r/BitcoinMarkets/comments/4x68rk/what_do_with_bfx_tokens_is_there_anything_that/)
 
@@ -167,3 +180,11 @@ While I won't go so far as to say iFinex operated with malicious intent I cannot
 [^leo-whitepaper]: [Initial Exchange Offering of LEO Tokens](https://www.bitfinex.com/wp-2019-05.pdf)
 
 [^only-market]: [Recovery Right Token Markets](https://coinmarketcap.com/currencies/recovery-right-token/markets/)
+
+[^cmc-tether]: [CoinMarketCap - Tether](https://coinmarketcap.com/currencies/tether/)
+
+[^ag-gg]: [Attorney General James Ends Virtual Currency Trading Platform Bitfinex’s Illegal Activities in New York](https://ag.ny.gov/press-release/2021/attorney-general-james-ends-virtual-currency-trading-platform-bitfinexs-illegal)
+
+[^court-doc]: [NYSCEF DOC. NO. 62](https://iapps.courts.state.ny.us/fbem/DocumentDisplayServlet?documentId=lyTOWUVaDHJdfUfkNZePWg==&system=prod)
+
+[^opacity]: [Transparency](https://tether.to/en/transparency/)
