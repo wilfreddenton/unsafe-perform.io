@@ -171,6 +171,12 @@ p code, .breadcrumb {
 	background: rgba(80, 250, 123, 0.2);
 }
 
+blockquote {
+	margin: 3rem 0;
+	padding-left: 3rem;
+	border-left: 1px solid #50fa7b;
+}
+
 video, img {
   position: relative;
   width: 100%;
