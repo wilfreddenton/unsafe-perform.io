@@ -244,7 +244,7 @@ footer {
 }
 
 #posts-list .posts-list-item {
-	margin-top: 1rem;
+	padding: 0.6rem 0;
 }
 
 #posts-list .posts-list-item a {

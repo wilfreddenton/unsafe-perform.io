@@ -1,6 +1,6 @@
 # Should Bitfinex Get the Coins?
 
-For those who have the ability to ignore cyptocurrency news, the United States Department of Justice published a press release on February 8th 2022: *Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency*[^DOJ-press-release].
+For those who have found a way to avoid cyptocurrency news, the United States Department of Justice published a press release on February 8th 2022: *Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency*[^DOJ-press-release].
 
 > According to court documents, Lichtenstein and Morgan allegedly conspired to launder the proceeds of 119,754 bitcoin that were stolen from Bitfinex’s platform after a hacker breached Bitfinex’s systems and initiated more than 2,000 unauthorized transactions.
 
@@ -22,7 +22,7 @@ Think of BFX tokens as IOUs. They were unregulated, came with no defined payback
 
 The number of BFX a user received was based on their "discrete losses" as opposed to "continuous losses". Suppose a user `WarrenPuffett` had 3BTC on Bitfinex pre-hack. The hack occurs and Bitfinex takes 36% of their BTC, about 1BTC, in exchange for around 600BFX tokens. $600 was roughly the USD price of Bitcoin at the time of the hack. Of course the numbers used were significantly more precise but round numbers are easier to think about. Bitfinex significantly reduced their debt by "snapshotting" the price because Bitcoin rallied until December 2017 when it reached an all time high of $20,000. It seems `1BTC == 1BTC` until shit hits the fan. 
 
-Obviously, this methodology upset a lot of users but some saw it as the best chance for recouping their losses and were understanding[^understanding]. So what are `WarrenPuffett`s options going forward?
+Obviously, this methodology upset a lot of users but some saw it as the best chance for recouping their losses and were understanding[^understanding]. So what are `WarrenPuffett`'s options going forward?
 
 1. Hold their BFX tokens in the hopes that Bitfinex would redeem them for the full amount,
 2. sell them for cents on the dollar to other traders,
@@ -30,13 +30,16 @@ Obviously, this methodology upset a lot of users but some saw it as the best cha
 
 **I'll be referring to iFinex in place of Bitfinex for the rest of the article**.
 
-iFinex was redeeming BFX tokens albeit slowly [^redemption-slow]. As a result, confidence that redemption of all the coins was low and their open market price of around $0.30 reflected that[^30-cents]. Sellers wanted to recoup a portion of their losses and be done with the ordeal waiving all legal claims against iFinex on account of the losses[^bfx-token-terms]. Buyers and holders were betting that iFinex would repurchase their tokens for the full dollar amount. iFinex partnered with a company called BnkToTheFuture to create a Special Purpose Vehicle [SPV], which surprisingly is not a Delorean that time travels to before the hack, but a way for users to convert BFX tokens into equity[^spv]. iFinex wanted their users to convert as this would reduce the number of BFX tokens they were obligated to redeem regardless of the recovery of stolen funds. To push users in this direction they introduced the second of three tokens called the Recovery Right Token [RRT]. 
+iFinex was redeeming BFX tokens albeit slowly[^redemption-slow]. Confidence that redemption of all the coins was low and the price of around $0.30 reflected that[^30-cents]. Sellers wanted to recoup a portion of their losses and be done with the ordeal waiving all legal claims against iFinex on account of the losses[^bfx-token-terms]. Buyers and holders were betting that iFinex would repurchase their tokens for the full dollar amount. iFinex partnered with a company called BnkToTheFuture to create a Special Purpose Vehicle [SPV], which surprisingly is not a Delorean that time travels to before the hack, but a way for users to convert BFX tokens into equity[^spv]. iFinex wanted their users to convert as this would reduce the number of BFX tokens they were obligated to redeem regardless of the recovery of stolen funds. To push users in this direction they introduced the Recovery Right Token [RRT]. 
 
 RRTs are nearly identical to BFXs in that they represent a $1.00 debt owed to the holder and are tradeable on the exchange. The difference is that iFinex is only obligated to redeem RRTs when and if the stolen coins were recovered. A user who chose to convert would lose the chance of being redeemed prior to recovery but maintain the right to redemption if a recovery occured and gain a stake in a highly profitable business assuming iFinex could make it through these choppy waters. If a user wanted to go this route, they would need to act fast:
 
 > If subscribed on or before October 7, 2016, each investor will get 1 RRT for each BFX token exchanged for shares;
+>
 > If subscribed after October 7, 2016, and on or before October 31, 2016, each investor will get ½ an RRT for each BFX token exchanged for shares;
+>
 > If subscribed after October 31, 2016, and on or before November 30, 2016, each investor will get ¼ an RRT for each BFX token exchanged for shares; and,
+>
 > If subscribed after November 30, 2016, no RRTs will be delivered[^rtt].
 
 This FOMO based scheme incentivised users to convert to shares quickly. The longer users held their BFX in the hopes of redemption, the fewer RRTs they'd receive if they ended up converting.
@@ -57,11 +60,11 @@ In other words, it was enough for him to send his Bitcoin to the exchange and st
 
 So he could hold or sell his BFX tokens but not buy. What about converting to equity?
 
-BnkToTheFuture does have a verification process and allows US citizens to participate on their platform [^bttf-kyc]. For the sake of the article let's assume that `WarrenPuffett` met those qualifications.
+BnkToTheFuture does have a verification process and allows US citizens to participate on their platform[^bttf-kyc]. For the sake of the article, we'll assume that `WarrenPuffett` met those qualifications.
 
 Always susceptible to FOMO, `WarrenPuffett` decides to go legit. He proves to Bitfinex and BnkToTheFuture that he is a "sophisticated" and "accredited" investor of "high-net worth". They in turn give him equity and RRTs.
 
-As the months went by more users converted and supply of BFX decreased. The price of Bitcoin began to rally and trade volume picked up on the exchange. This led to iFinex buying up all the remaining BFX for the full $1.00 amount.
+As the months went by more users converted decreasing the supply of BFX. The price of Bitcoin began to rally and trade volume picked up on the exchange. With a healthy revenue stream, iFinex is able to buy the remaining BFX for the full $1.00 amount.
 
 > A combination of factors has led to this seminal moment for Bitfinex, including a dramatic uptick in equity conversions; record operating results in March; and, the decision to reduce our reserves in favor of this opportunity. We are tremendously grateful to all of our customers and new shareholders for helping us get to this point. By the end of this week, we will be sending notes directly to our shareholders with more information about what to expect in the coming months[^100-redemption].
 
@@ -75,37 +78,38 @@ Two months later they announced they were kicking US citizens off the platform.
 
 > ... we are terminating trading, deposits, and withdrawal functionality for U.S. individual customers by no later than November 9, 2017[^bye-bye-us].
 
-`WarrenPuffett` had to move his funds off the platform and trade elsewhere. Because Bitfinex is the only market for RRTs[^only-market] he was forced to sell his for cents on the dollar long before the recovery of stolen funds.
+`WarrenPuffett` had to move his funds off the platform and trade elsewhere. Bitfinex is the only market for RRTs[^only-market] so he was forced to sell for cents on the dollar long before the recent recovery of stolen funds.
 
 > U.S. individuals holding Recovery Right Tokens (RRTs), if any, which relate to the exchange of now-defunct BFX tokens to equity in iFinex Inc., may, starting on October 27, 2017, sell all of their RRTs on the exchange, if they so elect. This is an exception to the general terms of use for RRTs. U.S. individuals are not permitted to buy RRTs during this time period[^bye-bye-us].
 
-Again, I do not know how a user like `WarrenPuffett` would have felt about this because it depends on the performance of the equity. If it far outpaced what he would have earned on that 1BTC he lost, then being forced to sell RRTs early wouldn't hurt that much. If the equity was performing poorly then this would feel like a punch in the gut. Additional unknowns are the liquidity of the market is and the "legitimacy" of BnkToTheFuture?
+Again, I do not know how a user like `WarrenPuffett` would have felt about this because it depends on the performance of the equity. If it far outpaced what he would have earned on that 1BTC he lost, then being forced to sell RRTs early wouldn't hurt that much. If the equity was performing poorly then this would feel like a punch in the gut. Additional unknowns are the liquidity of the market and the "legitimacy" of BnkToTheFuture.
 
 > BNK To The FUTURE (HK) Limited (Company Number 2205217) is Incorporated and registered in Hong Kong under the Companies Bill 2011. This website (Trading name BnkToTheFuture.com) is operated by BNK TO THE FUTURE (Company Number CO-296093) Incorporated and registered in Cayman Islands under the Companies Law 2013. BNK TO THE FUTURE is registered with the Cayman Islands Monetary Authority (CIMA License No. 1189274). 
+>
 > ...
+>
 > We take your trust very seriously[^bttf-regulated].
 
-I'll leave it up to the reader to make their own opinion.
+While all this was happening, iFinex was and is still managing another token called Tether [USDT]. Tether is a stablecoin pegged to the dollar meaning it's price should always be at or very close to $1. A peg is most simply achieved by keeping a 1:1 reserve of the target currency. Print `X` Tethers when `X` dollars are deposited and burn `X` Tethers when `X` dollars are withdrawn. For years iFinex claimed to have a fully backed reserve but they never proved it. 
 
-While all this was happening, iFinex was and is still managing another token called Tether [USDT]. Tether is a stablecoin pegged to the dollar meaning it's price should always be at or very close to $1. A peg is most simply achieved by keeping a 1:1 reserve of the target currency. Print X Tethers when X dollars are deposited and burn X Tethers when X dollars are withdrawn. For years iFinex claimed to have a fully backed reserve but they never proved it. 
-
-Tether is the most important catalyst for cryptocurrency markets. USDT trading pairs account for tens of billions of dollars in 24h volume and it's circulating supply is currently 78 billion[^cmc-tether]. Like many commodoties, Bitcoin is often priced in dollars. For users and exchanges located in other parts of the world and/or without to US banking, Tether and other stablecoins, provide access to "dollars". In this heavily correlated market where coins often rise and fall together, Tether is supposed to be a "stable" place for active traders to temporarily store their value.
+Tether is the most important catalyst for cryptocurrency markets. USDT trading pairs account for tens of billions of dollars in 24h volume and it's circulating supply is currently 78 billion[^cmc-tether]. Like many commodoties, Bitcoin is often priced in dollars. For users and exchanges located in other parts of the world and/or without US banking, Tether and other stablecoins, provide access to "dollars". In this heavily correlated market where coins often rise and fall together, Tether is supposed to be a "stable" place for active traders to temporarily store their value.
 
 Since its inception, Tether has been surrounded by controversy and in April 2019 things came to a head. iFinex had entrusted $850 million of Bitfinex's reserves to a Panamanian pseudo-bank called Crypto Capital. Polish authorities discovered that Crypto Capital had been laundering money for its customers including Columbian drug cartels. Their assets were seized along with the $850 million iFinex sent them for safe keeping[^bb-tether]. Lacking the funds to service customer withdrawals, iFinex dipped into the Tether reserves. New York Attorney General Lititia James accused them of breaking their promise to investors of keeping a 1:1 backed reserve[^ag-gg].
 
-If investors were to lose faith in the Tether reserves, USDT could "un-tether" from the dollar and crash. Anyone holding Tethers would try desperately to sell for blue chip cryptos like Bitcoin and Ethereum. A Tether crisis does not necessitate a wider market crash but that is certainly a possibility. Market infrastructure like exchanges and DeFi applications could break down turning users into bag holders. This might spook investors, causing them to pull out of the market entirely. For the past two years, iFinex has been printing Tethers like J-Pow works there. They flooded into the market propelling it to astronomical heights. If the printing isn't backed by *real* investor demand, assuming the rocketship hasn't left the atmosphere? It will fall back to earth.
+If investors were to lose faith in the Tether reserves, USDT could "un-tether" from the dollar and crash. Anyone holding Tethers would try desperately to sell for blue chip cryptos like Bitcoin and Ethereum. A Tether crisis does not necessitate a wider market crash but that is certainly a possibility. Market infrastructure like exchanges and DeFi applications could break down turning users into bag holders. This might spook investors, causing them to pull out of the market entirely. For the past two years, iFinex has been printing Tethers like J-Pow works there. Flooding into the market, they propelled it to astronomical heights. If the printing isn't backed by *real* investor demand, the rocket will fall back to earth.
 
-The NY AG wanted to force iFinex to show what's inside the vault. However, iFinex had prepared a defense. They argued that they did not move the funds but instead created a loan between their two subsidiaries. It's like they replaced the $850 million in the Tether reserve with BFX tokens. Additionally, they shifted the "fully backed reserve" goal posts:
+The NY AG wanted to inspect the vault. However, iFinex had prepared a defense. They argued that the funds were not moved but instead a loan between their two subsidiaries was created. It's like they replaced the $850 million in the Tether reserve with BFX tokens. Additionally, the "fully backed reserve" goal posts were shifted:
 
 > Tether updated its terms of service to make clear that reserves could include loans to affiliates, and did so before the line of credit transaction that is at the heart of this case. This disclosure gave anyone holding or considering buying tether the opportunity to take their money elsewhere if they so chose, defeating any allegation of fraud[^court-doc].
 
-Even though they were admitting that Tether was not backed 1:1 with cash, it did not lose its peg and there was no crisis.
+Even though they were admitting that Tether was not backed 1:1 with cash, the peg held and there was no crisis.
 
 To increase investor confidence, pay off the loan from Tether, and gesture rudely at the NY AG, iFinex came up with another Token based scheme. They ran what is known as an initial exchange offering [IEO]. This is when an exchange sells a "utility" token to its customers. It's a bit like rewards points. Despite everything previously discussed, their customers were happy to bail out the company again and purchased $1 billion worth of tokens.
 
 The token is called UNOS SED LEO [LEO] which took iFinex a couple paragraphs to explain in the whitepaper:
 
 > Our company motto, Unus Sed Leo, is a Latin citation from Aesop’s fable, "The Sow and the Lioness." The fable (in short) details how a sow brags about how many children she has and then asks the lioness if she only had one child. The lioness replies "One, but a lion."
+>
 > This ethos of quality over quantity and individual strength extends across several elements of iFinex, from being a privately-owned company to our recruitment and operational infrastructure. It is also an ideal that binds together persons linked to our company, from team members to shareholders, from communities to individual supporters[^leo-whitepaper].
 
 "Quality over quantity" seems antithetical to their philosophy on tokens.
@@ -119,6 +123,7 @@ Like more legitimate debt instruments, a schedule for paying down the debt was p
 The constant reduction in supply of the tokens and the demand for them based on their utility ideally increases the price over time acting like an interest rate.
 
 > In addition to the above, an amount equal to at least 95% of recovered net funds from Crypto Capital (described more fully herein) will be used to repurchase and burn outstanding LEO tokens within 18 months from the date of recovery[^leo-whitepaper].
+>
 > Further, an amount equal to at least 80% of recovered net funds from the BitFinex hack will be used to repurchase and burn outstanding LEO tokens within 18 months from the date of recovery[^leo-whitepaper].
 
 These are similar to a stock buybacks and in theory should boost the price of the coin significantly and provide profit to users who helped recapitalize iFinex in the initial sale.
@@ -133,7 +138,7 @@ Now, a year after the agreement, the DOJ announces they have control of the stol
 
 ![leo price](assets/leo-price.png)
 
-![rrt price](assets/leo-price.png)
+![rrt price](assets/rrt-price.png)
 
 Buyers of these tokens are betting that the DOJ will give the coins to Bitfinex and Bitfinex will redeem the outstanding RRTs and buy up a large amount of LEOs. But will the DOJ give them the coins? Why should they? Afterall, they belonged to the users of the exchange not the exchange. Those 120,000 coins worth $70 million in 2016 are now worth almost $5 billion dollars. iFinex snapshotted their users so why shouldn't the DOJ snapshot them? If the DOJ is really serious about not allowing "cryptocurrency to be a safe haven for money laundering or a zone of lawlessness within our financial system[^DOJ-press-release]" then they will not give billions of dollars in assets to a company that does not perform KYC/AML processes on all its users, has sold 3 different unregulated debt instruments to bail themselves out, and prints digital dollars that make money laundering considerably easier[^bb-tether].
 
