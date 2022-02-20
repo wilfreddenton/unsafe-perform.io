@@ -171,6 +171,12 @@ p code, .breadcrumb {
 	background: rgba(80, 250, 123, 0.2);
 }
 
+blockquote {
+	margin: 3rem 0;
+	padding-left: 3rem;
+	border-left: 1px solid #50fa7b;
+}
+
 video, img {
   position: relative;
   width: 100%;
@@ -189,6 +195,22 @@ footer {
 	margin-top: 12rem;
 }
 
+#markea {
+	background-image: url('https://ipfs.io/ipfs/QmTnVTonhwVc7wgFTMCb5MxmCYhGebLgGYSRUmUmEchqig/nft.jpg');
+	height: 110px;
+	width: 110px;
+	background-size: cover;
+	background-position: center;
+	margin-top: 6rem;
+	display: block;
+	position: relative;
+}
+
+#markea:hover {
+	margin-bottom: 0;
+	border: 0;
+}
+
 #title {
 	margin-bottom: 1px;
 	font-style: oblique;
@@ -202,7 +224,7 @@ footer {
 	font-size: 1.2rem;
 	font-weight: normal;
   color: #50fa7b;
-	margin-top: 4rem;
+	margin-top: 2rem;
 }
 
 #about-summary {
@@ -222,7 +244,7 @@ footer {
 }
 
 #posts-list .posts-list-item {
-	margin-top: 1rem;
+	padding: 0.6rem 0;
 }
 
 #posts-list .posts-list-item a {
@@ -266,6 +288,10 @@ footer {
 
 .utterances {
 	margin-top: 8rem;
+}
+
+.location {
+	color: #50fa7b;
 }
 
 @media (max-width: 576px) {
