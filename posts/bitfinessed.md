@@ -16,7 +16,7 @@ If this was heart-wrenching for Bitfinex users to read, the update published fou
 
 Unable or unwilling to eat the losses themselves, Bitfinex passed it on by taking 36% of customer funds: BTC, ETH, USD, etc.
 
-> In place of the loss in each wallet, we are crediting a token labeled BFX to record each customer’s discrete losses. Tokens will be distributed without release or waiver. The BFX tokens will remain outstanding until redeemed in full by Bitfinex or possibly exchanged—upon the creditor’s request and Bitfinex’s acceptance—for shares of iFinex Inc[^security-breach].
+> In place of the loss in each wallet, we are crediting a token labeled BFX to record each customer’s discrete losses. Tokens will be distributed without release or waiver. The BFX tokens will remain outstanding until redeemed in full by Bitfinex or possibly exchanged—upon the creditor’s request and Bitfinex’s acceptance—for shares of iFinex Inc[^security-breach-update].
 
 Think of BFX tokens as IOUs. They were unregulated, came with no defined payback schedule, offered zero interest, and were provided to users in a forced sale.
 
@@ -63,7 +63,7 @@ Always susceptible to FOMO, `WarrenPuffett` decides to go legit. He proves to Bi
 
 As the months went by more users converted and supply of BFX decreased. The price of Bitcoin began to rally and trade volume picked up on the exchange. This led to iFinex buying up all the remaining BFX for the full $1.00 amount.
 
-> A combination of factors has led to this seminal moment for Bitfinex, including a dramatic uptick in equity conversions; record operating results in March; and, the decision to reduce our reserves in favor of this opportunity. We are tremendously grateful to all of our customers and new shareholders for helping us get to this point. By the end of this week, we will be sending notes directly to our shareholders with more information about what to expect in the coming months.
+> A combination of factors has led to this seminal moment for Bitfinex, including a dramatic uptick in equity conversions; record operating results in March; and, the decision to reduce our reserves in favor of this opportunity. We are tremendously grateful to all of our customers and new shareholders for helping us get to this point. By the end of this week, we will be sending notes directly to our shareholders with more information about what to expect in the coming months[^100-redemption].
 
 The users who held their BFX tokens had their discrete losses recouped and those who bought more BFX tokens could have recouped their continuous losses and even made significant profit--💎🙌. For users like `WarrenPuffett` who converted to equity it's hard to say how they may have interpreted the news. I do not have access to the price charts for iFinex shares but I imagine they were doing well.
 
@@ -147,42 +147,40 @@ While I won't go so far as to say that iFinex has operated with malicious intent
 
 [^understanding]: [Why you should support the Bitfinex 36% haircut + token scheme instead of legal system liquidation procedure](https://www.reddit.com/r/Bitcoin/comments/4wir3y/why_you_should_support_the_bitfinex_36_haircut/)
 
-[^milkshake]: [I Drink Your Milkshake](https://medium.com/decentralize-today/on-bitfinexs-bfx-disclosures-4dd9949e8f39)
-
-[^rrt]: [Bitfinex Recovery Right Tokens](https://blog.bitfinex.com/announcements/bitfinex-recovery-right-tokens/)
-
-[^rrt-terms]: [Recovery Right Token (RRT) Terms](https://www.bitfinex.com/legal/token-terms/rrt)
+[^redemption-slow]: [Redemption of 5.00% of BFX Tokens](https://www.bitfinex.com/posts/193)
 
 [^30-cents]: [What do with BFX tokens? (Reddit Post)](https://www.reddit.com/r/BitcoinMarkets/comments/4x68rk/what_do_with_bfx_tokens_is_there_anything_that/)
 
-[^no-kyc]: [Verification](https://support.bitfinex.com/hc/en-us/articles/115003424209-Verification-Frequently-asked-questions-FAQ-)
-
-[^bfx-token-terms]: [Bitfinex has posted terms for the BFX token.](https://www.reddit.com/r/BitcoinMarkets/comments/4x1fc9/bitfinex_has_posted_terms_for_the_bfx_token/) | The original Bitfinex post has been taken down so I'm linking to a reddit repost of it.
-
-[^redemption-slow]: [Redemption of 5.00% of BFX Tokens](https://www.bitfinex.com/posts/193)
-
-[^100-redemption]: [100% Redemption of Outstanding BFX Tokens](https://www.bitfinex.com/posts/198)
+[^bfx-token-terms]: [Bitfinex has posted terms for the BFX token.](https://www.reddit.com/r/BitcoinMarkets/comments/4x1fc9/bitfinex_has_posted_terms_for_the_bfx_token/)
+The original Bitfinex post has been taken down so I'm linking to a reddit repost of it.
 
 [^spv]: [Special Purpose Vehicle (SPV) Opportunities ](https://www.bitfinex.com/posts/147)
 
+[^rrt]: [Bitfinex Recovery Right Tokens](https://blog.bitfinex.com/announcements/bitfinex-recovery-right-tokens/)
+
+[^no-kyc]: [Verification](https://support.bitfinex.com/hc/en-us/articles/115003424209-Verification-Frequently-asked-questions-FAQ-)
+
 [^bttf-kyc]: [Who can use BnkToTheFuture.com?](https://bnktothefuture.freshdesk.com/support/solutions/articles/9000164098-who-can-use-bnktothefuture-com-)
+
+[^100-redemption]: [100% Redemption of Outstanding BFX Tokens](https://www.bitfinex.com/posts/198)
 
 [^no-more-us]: [Service Changes for U.S. Customers](https://www.bitfinex.com/posts/216)
 
 [^bye-bye-us]: [Update: U.S. Individual Users](https://www.bitfinex.com/posts/227)
 
-[^bttf-regulated]: [Who is BnkToTheFuture.com regulated by?](https://bnktothefuture.freshdesk.com/support/solutions/articles/9000065919-who-is-bnktothefuture-com-regulated-by-)
-
-[^leo-whitepaper]: [Initial Exchange Offering of LEO Tokens](https://www.bitfinex.com/wp-2019-05.pdf)
-
 [^only-market]: [Recovery Right Token Markets](https://coinmarketcap.com/currencies/recovery-right-token/markets/)
+
+[^bttf-regulated]: [Who is BnkToTheFuture.com regulated by?](https://bnktothefuture.freshdesk.com/support/solutions/articles/9000065919-who-is-bnktothefuture-com-regulated-by-)
 
 [^cmc-tether]: [CoinMarketCap - Tether](https://coinmarketcap.com/currencies/tether/)
 
+[^bb-tether]: [Anyone Seen Tether’s Billions?](https://www.bloomberg.com/news/features/2021-10-07/crypto-mystery-where-s-the-69-billion-backing-the-stablecoin-tether)
+
 [^ag-gg]: [Attorney General James Ends Virtual Currency Trading Platform Bitfinex’s Illegal Activities in New York](https://ag.ny.gov/press-release/2021/attorney-general-james-ends-virtual-currency-trading-platform-bitfinexs-illegal)
+
 
 [^court-doc]: [NYSCEF DOC. NO. 62](https://iapps.courts.state.ny.us/fbem/DocumentDisplayServlet?documentId=lyTOWUVaDHJdfUfkNZePWg==&system=prod)
 
-[^opacity]: [Transparency](https://tether.to/en/transparency/)
+[^leo-whitepaper]: [Initial Exchange Offering of LEO Tokens](https://www.bitfinex.com/wp-2019-05.pdf)
 
-[^bb-tether]: [Anyone Seen Tether’s Billions?](https://www.bloomberg.com/news/features/2021-10-07/crypto-mystery-where-s-the-69-billion-backing-the-stablecoin-tether)
+[^opacity]: [Transparency](https://tether.to/en/transparency/)
