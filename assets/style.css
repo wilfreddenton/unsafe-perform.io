@@ -196,14 +196,19 @@ footer {
 }
 
 #markea {
-	background-image: url('https://ipfs.io/ipfs/QmTnVTonhwVc7wgFTMCb5MxmCYhGebLgGYSRUmUmEchqig/nft.jpg');
+  clip-path: url('#shape-hex');
 	height: 110px;
 	width: 110px;
-	background-size: cover;
-	background-position: center;
-	margin-top: 6rem;
 	display: block;
 	position: relative;
+}
+
+#markea > div {
+	background-image: url('https://ipfs.io/ipfs/QmTnVTonhwVc7wgFTMCb5MxmCYhGebLgGYSRUmUmEchqig/nft.jpg');
+  background-size: cover;
+	background-position: center;
+  width: 100%;
+  height: 100%;
 }
 
 #markea:hover {
