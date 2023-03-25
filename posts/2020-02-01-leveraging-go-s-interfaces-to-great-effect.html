@@ -20,11 +20,14 @@
 <nav>
 <a href="">Home</a>
 <span class="breadcrumb">></span>
-<a href="posts/">Posts</a>
+<a href="posts">Posts</a>
 <span class="breadcrumb">></span>
 <a href="posts/2020-02-01-leveraging-go-s-interfaces-to-great-effect.html">Feb 01, 2020</a>
 </nav>
 <section>
+<!--metadata
+date = 2020-02-01
+-->
 <h1>Leveraging Go's Interfaces to Great Effect</h1>
 <p>Suppose you're developing a web server. One of the request handlers performs logging, authentication, HTTP requests, and database queries. It's provided these capabilities by four structs passed in as arguments and looks something like this:</p>
 <pre><code class="language-go">func createProductHandler(

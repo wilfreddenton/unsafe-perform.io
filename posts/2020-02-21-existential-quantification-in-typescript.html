@@ -20,11 +20,14 @@
 <nav>
 <a href="">Home</a>
 <span class="breadcrumb">></span>
-<a href="posts/">Posts</a>
+<a href="posts">Posts</a>
 <span class="breadcrumb">></span>
 <a href="posts/2020-02-21-existential-quantification-in-typescript.html">Feb 21, 2020</a>
 </nav>
 <section>
+<!--metadata
+date = 2020-02-21
+-->
 <h1>Existential Quantification in TypeScript</h1>
 <p>While working on a TypeScript project, I encountered a scenario that seemed impossible to describe with the language. I needed a function that could take a list of action/handler tuples, <code>[Promise&lt;A&gt;, (a: A) =&gt; void][]</code>, and apply each handler to the the <code>await</code>ed result of the action. Something like this:</p>
 <pre><code class="language-typescript">async function applyMany&lt;A&gt;(ahts: [Promise&lt;A&gt;, (a: A) =&gt; void][]): Promise&lt;void&gt;
