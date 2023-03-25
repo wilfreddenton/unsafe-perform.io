@@ -1,3 +1,7 @@
+<!--metadata
+date = 2020-01-19
+-->
+
 # Working With Multiple Git Identities
 
 Not everyone has the luxury of using their personal Github account for all their projects. It's quite common to have a company provided account as well as a few personal accounts. Without the proper local setup this can cause all kinds of issues: having to login every push, authentication errors, commits associated with the "wrong" account, etc. For those of us unfamiliar with `git` and/or `ssh`, wrangling multiple identities can be a daunting task but it's actually quite simple.

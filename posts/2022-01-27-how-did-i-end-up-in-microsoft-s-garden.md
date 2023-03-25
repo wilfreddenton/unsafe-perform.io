@@ -1,3 +1,7 @@
+<!--metadata
+date = 2022-01-27
+-->
+
 # How Did I End Up In Microsoft's Garden?
 
 ## 2016

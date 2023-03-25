@@ -1,4 +1,8 @@
-# Downloading YouTube Videos With yt-dlp
+<!--metadata
+date = 2020-02-02
+-->
+
+# Downloading Videos With yt-dlp
 
 [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) is an actively maintained fork of [`youtube-dl`](https://ytdl-org.github.io/youtube-dl/index.html) and is the best way to download high quality videos from YouTube. Instructions for how to install it are located [here](https://github.com/yt-dlp/yt-dlp#installation). The tool has a large API surface area and dense documentation which can result in a frustrating experience when you *just* want to download a video. If you see it, like it, want it, this guide will help you get it.
 

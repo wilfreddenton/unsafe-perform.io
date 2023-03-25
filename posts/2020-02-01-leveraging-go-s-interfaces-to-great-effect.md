@@ -1,3 +1,7 @@
+<!--metadata
+date = 2020-02-01
+-->
+
 # Leveraging Go's Interfaces to Great Effect
 
 Suppose you're developing a web server. One of the request handlers performs logging, authentication, HTTP requests, and database queries. It's provided these capabilities by four structs passed in as arguments and looks something like this:

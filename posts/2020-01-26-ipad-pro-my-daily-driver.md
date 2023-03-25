@@ -1,3 +1,7 @@
+<!--metadata
+date = 2020-01-26
+-->
+
 # iPad Pro: My Daily Driver
 
 The 2018 12.9" iPad Pro has been my daily driver for over a year. While imperfect, the experience far exceeded my expectations and I may never purchase a laptop again.

@@ -1,3 +1,7 @@
+<!--metadata
+date = 2020-01-21
+-->
+
 # Enjoy Writing JavaScript With Async/Await
 
 JavaScript has come a long way since the days of [callback hell](http://callbackhell.com/). Many libraries were introduced to help ease the pain but it wasn't until the introduction of [promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) did things really start to improve. While promises solve the nesting issue, chaining them together is still an awkward way to compose a procedure.

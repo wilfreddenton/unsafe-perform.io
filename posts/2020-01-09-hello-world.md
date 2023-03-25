@@ -1,3 +1,7 @@
+<!--metadata
+date = 2020-01-09
+-->
+
 # Hello, World!
 
 ```haskell

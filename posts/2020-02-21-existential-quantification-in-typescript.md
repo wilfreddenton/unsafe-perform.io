@@ -1,3 +1,7 @@
+<!--metadata
+date = 2020-02-21
+-->
+
 # Existential Quantification in TypeScript
 
 While working on a TypeScript project, I encountered a scenario that seemed impossible to describe with the language. I needed a function that could take a list of action/handler tuples, `[Promise<A>, (a: A) => void][]`, and apply each handler to the the `await`ed result of the action. Something like this:

@@ -1,3 +1,7 @@
+<!--metadata
+date = 2022-02-02
+-->
+
 # Should Bitfinex Get the Coins?
 
 For those who have found a way to avoid cyptocurrency news, the United States Department of Justice published a press release on February 8th 2022: *Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency*[^DOJ-press-release].
