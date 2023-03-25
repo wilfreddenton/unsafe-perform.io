@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>Downloading YouTube Videos With yt-dlp</title>
+<title>Downloading Videos With yt-dlp</title>
 <base href="/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="author" content="Wilfred Denton">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@unsafe_io">
-<meta name="twitter:title" content="Downloading YouTube Videos With yt-dlp">
+<meta name="twitter:title" content="Downloading Videos With yt-dlp">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="assets/dracula.css">
 <link rel="stylesheet" href="assets/style.css">
@@ -20,12 +20,15 @@
 <nav>
 <a href="">Home</a>
 <span class="breadcrumb">></span>
-<a href="posts/">Posts</a>
+<a href="posts">Posts</a>
 <span class="breadcrumb">></span>
-<a href="posts/2020-02-02-i-see-it-i-like-it-i-want-it-i-yt-dlp-it.html">Feb 02, 2020</a>
+<a href="posts/2020-02-02-downloading-videos-with-yt-dlp.html">Feb 02, 2020</a>
 </nav>
 <section>
-<h1>Downloading YouTube Videos With yt-dlp</h1>
+<!--metadata
+date = 2020-02-02
+-->
+<h1>Downloading Videos With yt-dlp</h1>
 <p><a href="https://github.com/yt-dlp/yt-dlp"><code>yt-dlp</code></a> is an actively maintained fork of <a href="https://ytdl-org.github.io/youtube-dl/index.html"><code>youtube-dl</code></a> and is the best way to download high quality videos from YouTube. Instructions for how to install it are located <a href="https://github.com/yt-dlp/yt-dlp#installation">here</a>. The tool has a large API surface area and dense documentation which can result in a frustrating experience when you <em>just</em> want to download a video. If you see it, like it, want it, this guide will help you get it.</p>
 <h2>List Available Formats</h2>
 <pre><code class="language-plaintext">yt-dlp -F https://www.youtube.com/watch?v=v7bnOxV4jAc
