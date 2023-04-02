@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Bing Helped Me Write a Lua Plugin for Neovim</title>
+<base href="/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Wilfred Denton">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@unsafe_io">
+<meta name="twitter:title" content="Bing Helped Me Write a Lua Plugin for Neovim">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="stylesheet" href="assets/dracula.css">
+<link rel="stylesheet" href="assets/style.css">
+<script type="text/javascript" src="assets/highlight.min.js" defer></script>
+<script type="text/javascript" src="assets/script.js" defer></script>
+</head>
+<body>
+<div id="container">
+<nav>
+<a href="">Home</a>
+<span class="breadcrumb">></span>
+<a href="posts">Posts</a>
+<span class="breadcrumb">></span>
+<a href="posts/2023-04-02-bing-helped-me-write-a-lua-plugin-for-neovim.html">Apr 02, 2023</a>
+</nav>
+<section>
+<h1>Bing Helped Me Write a Lua Plugin for Neovim</h1>
+<p><strong>Prompt</strong>:</p>
+<blockquote>
+<p>Write me a neovim lua script that keeps a history of buffers for each window
+and has a command for going backwards and forwards in history.</p>
+</blockquote>
+<p><strong>Answer</strong>:</p>
+<pre><code class="language-lua">local history = {}
+local current = 0
+
+function AddToHistory()
+  local bufnr = vim.fn.bufnr()
+  local winid = vim.fn.win_getid()
+  local entry = {bufnr, winid}
+  table.insert(history, entry)
+  current = #history
+end
+
+function GoBack()
+  if current &gt; 1 then
+    current = current - 1
+    local entry = history[current]
+    vim.fn.bufload(entry[1])
+    vim.fn.win_gotoid(entry[2])
+  end
+end
+
+function GoForward()
+  if current &lt; #history then
+    current = current + 1
+    local entry = history[current]
+    vim.fn.bufload(entry[1])
+    vim.fn.win_gotoid(entry[2])
+  end
+end
+
+vim.cmd([[autocmd BufEnter * lua AddToHistory()]])
+vim.cmd([[command! -nargs=0 Back lua GoBack()]])
+vim.cmd([[command! -nargs=0 Forward lua GoForward()]])
+</code></pre>
+<p>In less than 5 seconds Bing spits out the above. A quick read of it puts me in
+a state of mild shock. For someone who has never written Lua and is totally
+unfamiliar with the Neovim related APIs, this output is incredibly useful.</p>
+<h2>The Good</h2>
+<p><strong>It shows me basic Lua syntax</strong>:</p>
+<pre><code class="language-lua">function Name() -- function definitions
+end
+
+if P then -- if statements
+end
+
+local name = {} -- variable definitions
+
+#history -- length of table
+
+table.insert(index, value) -- append to table
+</code></pre>
+<p>I'm not sure what <code>[[]]</code> in the <code>vim.cmd()</code> means so I ask Bing:</p>
+<blockquote>
+<p>what is double bracket syntax in lua</p>
+</blockquote>
+<p><strong>Answer</strong>:</p>
+<blockquote>
+<p>In Lua, double square brackets are used to enclose literal strings which
+traverse several lines.</p>
+</blockquote>
+<p>There's further info and links to lua docs and stack overflow as well.</p>
+<p><strong>It familiarizes me with some of the Neovim specific APIs that are necessary
+for the pluging</strong>:</p>
+<pre><code class="language-lua">vim.fn.bufnr() -- get the number (ID) of the current buffer
+
+vim.fn.win_getid() -- get the ID of the current window
+
+vim.fn.bufload(bufnr) -- load a buffer by its number into the current window
+
+vim.fn.win_gotoid(winid) -- move to window by its ID
+
+vim.cmd() -- run vim script
+</code></pre>
+<p><strong>Note</strong>: I later changed these to the <code>vim.api.nvim_*</code> equivelants. When asked, Bing served them up without a hitch.</p>
+<p><strong>It provides me with a basic structure for the plugin</strong>:</p>
+<blockquote>
+<p>track the history in a table</p>
+<p>track the current place in history</p>
+<p>function for adding new buffers into history</p>
+<p>function for going backwards in history</p>
+<p>function for going forwards in history</p>
+<p>use autocommand to track <code>BufEnter</code> events and handle them with the add function</p>
+</blockquote>
+<p>So does it work? <strong>No</strong>, and I'm thankful for that. I will remain employed for
+the foreseeable future 😅.</p>
+<h2>The Bad</h2>
+<p><strong>The <code>vim.cmd</code> block at the bottom of the script is essentially vim script and
+not Lua</strong>.</p>
+<p>I asked Bing if it was possible to do this in pure Lua:</p>
+<p><strong>Prompt</strong>:</p>
+<blockquote>
+<p>how to create an autocommand for neovim in lua</p>
+</blockquote>
+<p><strong>Answer</strong>:</p>
+<blockquote>
+<p>... You can also use <code>vim.api.nvim_create_autocmd()</code> to create autommands</p>
+</blockquote>
+<p>The answer includes a link to the Neovim Lua docs where I can learn more about
+this function.</p>
+<p><strong>The script maintains a global history across all windows instead of a
+separate history for each window</strong>.</p>
+<p>I prompt bing a couple times to try and fix this issue but never get any output
+better than the original. I think this &quot;nesting&quot; is a bit beyond the AI's
+current capabilities.</p>
+<p><strong>The script does not delete entries past the current index when opening a new
+file</strong>:</p>
+<pre><code class="language-text">history:
+  1. file_b
+  2. file_a &lt;- current
+  3. file_d
+
+action:
+  open file_r
+
+expected:
+  1. file_b
+  2. file_a
+  3. file_r &lt;- current
+
+actual:
+  1. file_b
+  2. file_a
+  3. file_d
+  4. fild_r &lt;- current
+</code></pre>
+<p>To be fair, I didn't tell Bing that I wanted this behavior and honestly, I'm
+not really sure how to put it into simple enough terms for a prompt anyways.
+I'll just implement it manually.</p>
+<p><strong>Even if the buffer being added is the same as the current buffer, the script
+will still create a new entry to history</strong>.</p>
+<pre><code class="language-text">history:
+  1. file_b
+  2. file_a &lt;- current
+  3. file_d
+
+action:
+  open file_a
+
+expected:
+  1. file_b
+  2. file_a &lt;- current
+  3. file_d
+
+actual:
+  1. file_b
+  2. file_a
+  3. file_d
+  4. file_a &lt;- current
+</code></pre>
+<p>So while there's plenty of work still to be done, I'm significantly more
+confident in my ability to complete the plugin because I have a great
+assistant--Bing.</p>
+<h2>My First Neovim Plugin!</h2>
+<p>A few more hours of coding across a couple days and about 30 Bing prompts
+later, I have the plugin in a satisfactory state.</p>
+<p><a href="https://github.com/wilfreddenton/history.nvim/">history.nvim</a></p>
+<p>Take a look at the code. You'll see that a lot of the generated script's DNA
+remains. The largest addition is another command to display the history in a
+popup.</p>
+<p>Manually scanning through the Neovim Lua docs is slow. It's better to first ask
+Bing questions like &quot;Using lua how can I set the position of the cursor in
+neovim?&quot; and &quot;Using lua how can I close a window in neovim?&quot; At worst the
+chatbot provides something to search for in the docs and at best gives a
+complete answer with an explanation and sources.</p>
+<p>While there are, of course, many issues with the way large language models have
+been unleashed onto the world, so far, I am grateful for them. Bing chat is an
+excellent tool for exploring domains outside my immediate area of expertise. It
+does not invalidate my years of experience; it enhances it. Without that
+experience, I would never have been able to take what Bing generated and turn
+it into what I envisioned. I wouldn't know what was good or bad about it. It
+does however, greatly increase the velocity at which I am able to develop.</p>
+<p>Thanks Bing 💙.</p>
+
+</section>
+<script src="https://utteranc.es/client.js"
+repo="wilfreddenton/unsafe-perform.io"
+issue-term="title"
+label="🔮 utterances"
+theme="preferred-color-scheme"
+crossorigin="anonymous"
+async>
+</script>
+<footer>
+<p>generated by <a href="https://github.com/wilfreddenton/stoic">stoic</a></p>
+</footer>
+</div>
+</body>
+</html>
