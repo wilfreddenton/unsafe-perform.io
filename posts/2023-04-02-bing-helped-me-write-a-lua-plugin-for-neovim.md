@@ -1,3 +1,7 @@
+<!--metadata
+date = 2023-04-02
+-->
+
 # Bing Helped Me Write a Lua Plugin for Neovim
 
 **Prompt**:
