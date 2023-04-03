@@ -25,6 +25,9 @@
 <a href="posts/2023-04-02-bing-helped-me-write-a-lua-plugin-for-neovim.html">Apr 02, 2023</a>
 </nav>
 <section>
+<!--metadata
+date = 2023-04-02
+-->
 <h1>Bing Helped Me Write a Lua Plugin for Neovim</h1>
 <p><strong>Prompt</strong>:</p>
 <blockquote>
@@ -69,7 +72,7 @@ vim.cmd([[command! -nargs=0 Forward lua GoForward()]])
 a state of mild shock. For someone who has never written Lua and is totally
 unfamiliar with the Neovim related APIs, this output is incredibly useful.</p>
 <h2>The Good</h2>
-<p><strong>It shows me basic Lua syntax</strong>:</p>
+<p><strong>The generated code contains examples of basic Lua syntax</strong>:</p>
 <pre><code class="language-lua">function Name() -- function definitions
 end
 
@@ -83,6 +86,7 @@ local name = {} -- variable definitions
 table.insert(index, value) -- append to table
 </code></pre>
 <p>I'm not sure what <code>[[]]</code> in the <code>vim.cmd()</code> means so I ask Bing:</p>
+<p><strong>Prompt</strong>:</p>
 <blockquote>
 <p>what is double bracket syntax in lua</p>
 </blockquote>
@@ -91,9 +95,9 @@ table.insert(index, value) -- append to table
 <p>In Lua, double square brackets are used to enclose literal strings which
 traverse several lines.</p>
 </blockquote>
-<p>There's further info and links to lua docs and stack overflow as well.</p>
+<p>There's further info and links to Lua docs and stack overflow as well.</p>
 <p><strong>It familiarizes me with some of the Neovim specific APIs that are necessary
-for the pluging</strong>:</p>
+for the plugin</strong>:</p>
 <pre><code class="language-lua">vim.fn.bufnr() -- get the number (ID) of the current buffer
 
 vim.fn.win_getid() -- get the ID of the current window
@@ -104,16 +108,20 @@ vim.fn.win_gotoid(winid) -- move to window by its ID
 
 vim.cmd() -- run vim script
 </code></pre>
-<p><strong>Note</strong>: I later changed these to the <code>vim.api.nvim_*</code> equivelants. When asked, Bing served them up without a hitch.</p>
+<p><strong>Note</strong>: I later changed these to the <code>vim.api.nvim_*</code> equivalents. When asked, Bing served them up without a hitch.</p>
 <p><strong>It provides me with a basic structure for the plugin</strong>:</p>
-<blockquote>
-<p>track the history in a table</p>
-<p>track the current place in history</p>
-<p>function for adding new buffers into history</p>
-<p>function for going backwards in history</p>
-<p>function for going forwards in history</p>
-<p>use autocommand to track <code>BufEnter</code> events and handle them with the add function</p>
-</blockquote>
+<pre><code class="language-text">- track the history in a table
+
+- track the current place in history
+
+- function for adding new buffers into history
+
+- function for going backwards in history
+
+- function for going forwards in history
+
+- use autocommand to track `BufEnter` events and handle them with the add function
+</code></pre>
 <p>So does it work? <strong>No</strong>, and I'm thankful for that. I will remain employed for
 the foreseeable future 😅.</p>
 <h2>The Bad</h2>
@@ -126,13 +134,13 @@ not Lua</strong>.</p>
 </blockquote>
 <p><strong>Answer</strong>:</p>
 <blockquote>
-<p>... You can also use <code>vim.api.nvim_create_autocmd()</code> to create autommands</p>
+<p>... You can also use <code>vim.api.nvim_create_autocmd()</code> to create autocommands</p>
 </blockquote>
 <p>The answer includes a link to the Neovim Lua docs where I can learn more about
 this function.</p>
 <p><strong>The script maintains a global history across all windows instead of a
 separate history for each window</strong>.</p>
-<p>I prompt bing a couple times to try and fix this issue but never get any output
+<p>I prompt Bing a couple times to try and fix this issue but never get any output
 better than the original. I think this &quot;nesting&quot; is a bit beyond the AI's
 current capabilities.</p>
 <p><strong>The script does not delete entries past the current index when opening a new
@@ -160,7 +168,7 @@ actual:
 not really sure how to put it into simple enough terms for a prompt anyways.
 I'll just implement it manually.</p>
 <p><strong>Even if the buffer being added is the same as the current buffer, the script
-will still create a new entry to history</strong>.</p>
+adds a new entry in history</strong>.</p>
 <pre><code class="language-text">history:
   1. file_b
   2. file_a &lt;- current
@@ -180,9 +188,8 @@ actual:
   3. file_d
   4. file_a &lt;- current
 </code></pre>
-<p>So while there's plenty of work still to be done, I'm significantly more
-confident in my ability to complete the plugin because I have a great
-assistant--Bing.</p>
+<p>While there's plenty of work to be done, I'm significantly more confident in my
+ability to complete the plugin because I have a great assistant--Bing.</p>
 <h2>My First Neovim Plugin!</h2>
 <p>A few more hours of coding across a couple days and about 30 Bing prompts
 later, I have the plugin in a satisfactory state.</p>
