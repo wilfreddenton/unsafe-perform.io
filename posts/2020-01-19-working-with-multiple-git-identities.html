@@ -29,7 +29,7 @@
 date = 2020-01-19
 -->
 <h1>Working With Multiple Git Identities</h1>
-<p>Not everyone has the luxury of using their personal Github account for all their projects. It's quite common to have a company provided account as well as a few personal accounts. Without the proper local setup this can cause all kinds of issues: having to login every push, authentication errors, commits associated with the &quot;wrong&quot; account, etc. For those of us unfamiliar with <code>git</code> and/or <code>ssh</code>, wrangling multiple identities can be a daunting task but it's actually quite simple.</p>
+<p>Not everyone has the luxury of using their personal Github account for all their projects. It's quite common to have a company provided account as well as a few personal accounts. Without the proper local setup this can cause all kinds of issues: having to login every push, authentication errors, commits associated with the "wrong" account, etc. For those of us unfamiliar with <code>git</code> and/or <code>ssh</code>, wrangling multiple identities can be a daunting task but it's actually quite simple.</p>
 <p>If you don't already use <code>ssh</code> for cloning and authentication then you will need to switch to that. While it requires some setup, no longer having to login to perform git actions is quite convenient.</p>
 <p>Let's assume you have a <code>work</code> account and a <code>personal</code> account. If you don't already have <code>ssh</code> keys for these accounts follow this handy <a href="https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">guide</a> provided by Github. Once you've created both keys, <a href="https://help.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account">add them to your respective Github accounts</a>.</p>
 <p>Your <code>~/.ssh</code> directory should now look something like this:</p>
@@ -59,12 +59,12 @@ Host github.com-personal
 <p>You'd need to change it to this:</p>
 <p><code>git@github.com-work:my-company/work-repo.git</code></p>
 <p>Notice how the <code>host</code> has changed from <code>github.com</code> to <code>github.com-work</code>. It's the same <code>host</code> that was specified in the <code>config</code> file. This tells <code>ssh</code> that the <code>id_rsa_work</code> key should be used for this repo and to map the custom <code>github.com-work</code> host to the actual host <code>github.com</code>. Now, to ensure that you're committing and pushing with the right identity, <code>cd</code> into the <code>work-repo</code> directory and setup a local <code>git</code> config.</p>
-<pre><code class="language-plaintext">git config user.name &quot;my-work-username&quot;
-git config user.email &quot;my-work-email&quot;
+<pre><code class="language-plaintext">git config user.name "my-work-username"
+git config user.email "my-work-email"
 </code></pre>
 <p>As we are not using the <code>--global</code> flag, these commands only set the identity for the <code>work-repo</code> repo. You will <em>not</em> have to set this configuration again unless you delete the directory and reclone.</p>
 <p>You can perform the process again for your personal repo swapping out the <code>github.com-work</code> custom host with <code>github.com-personal</code>, your work username for your personal username, and your work email for your personal email.</p>
-<p>This process can be repeated for any number of identities, adding a &quot;block&quot; in the <code>ssh</code> config file for each.</p>
+<p>This process can be repeated for any number of identities, adding a "block" in the <code>ssh</code> config file for each.</p>
 
 </section>
 <script src="https://utteranc.es/client.js"

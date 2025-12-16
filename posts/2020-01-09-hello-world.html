@@ -44,18 +44,18 @@ star :: IORef a -&gt; a
 star = unsafePerformIO . readIORef
 </code></pre>
 <p>Haskell, a <em>purely</em> functional programming language, supports global mutable variables. Load the above script with <code>ghci</code> to see how it works.</p>
-<pre><code class="language-plaintext">*Main&gt; let helloWorld = var &quot;Hello, World!&quot;
+<pre><code class="language-plaintext">*Main&gt; let helloWorld = var "Hello, World!"
 *Main&gt; star helloWorld
-&quot;Hello, World!&quot;
-*Main&gt; helloWorld &lt;== &quot;Surprise!&quot;
+"Hello, World!"
+*Main&gt; helloWorld &lt;== "Surprise!"
 ()
 *Main&gt; star helloWorld
-&quot;Surprise!&quot;
+"Surprise!"
 </code></pre>
-<p>Notice, in line <code>1</code>, <code>let</code> is used instead of <code>&lt;-</code>. That's because <code>var</code> is not a monadic action. <code>unsafePerformIO</code> has removed the <code>IO</code> context and made it a &quot;pure&quot; function. <code>unsafePerformIO</code> is also used to achieve false purity in the definitions of the assignment operator <code>&lt;==</code> and the dereference function <code>star</code>. These impurely pure functions can be buried anywhere in a codebase, turning the application into a game of minesweeper.</p>
+<p>Notice, in line <code>1</code>, <code>let</code> is used instead of <code>&lt;-</code>. That's because <code>var</code> is not a monadic action. <code>unsafePerformIO</code> has removed the <code>IO</code> context and made it a "pure" function. <code>unsafePerformIO</code> is also used to achieve false purity in the definitions of the assignment operator <code>&lt;==</code> and the dereference function <code>star</code>. These impurely pure functions can be buried anywhere in a codebase, turning the application into a game of minesweeper.</p>
 <p>The <code>unsafePerformIO</code> <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/System-IO-Unsafe.html#v:unsafePerformIO">documentation</a> provides one of the more humorous lines technical writing has to offer:</p>
 <blockquote>
-<p>This is the &quot;back door&quot; into the IO monad</p>
+<p>This is the "back door" into the IO monad</p>
 </blockquote>
 
 </section>

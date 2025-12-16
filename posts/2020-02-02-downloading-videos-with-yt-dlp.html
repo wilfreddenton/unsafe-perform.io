@@ -89,14 +89,14 @@ sb0 mhtml 160x90         │                   mhtml │ images                 
 [download] 100% of 405.50MiB in 00:09
 [download] Destination: [MV] IU(아이유)_LILAC(라일락) [v7bnOxV4jAc].f251.webm
 [download] 100% of 4.35MiB in 00:00
-[Merger] Merging formats into &quot;[MV] IU(아이유)_LILAC(라일락) [v7bnOxV4jAc].webm&quot;
+[Merger] Merging formats into "[MV] IU(아이유)_LILAC(라일락) [v7bnOxV4jAc].webm"
 Deleting original file [MV] IU(아이유)_LILAC(라일락) [v7bnOxV4jAc].f251.webm (pass -k to keep)
 Deleting original file [MV] IU(아이유)_LILAC(라일락) [v7bnOxV4jAc].f313.webm (pass -k to keep)
 </code></pre>
 <h2>Celebrate!</h2>
 <p><video src="assets/lilac_loop.mp4" autoplay loop muted playsinline></video></p>
 <p>I used <code>ffmpeg</code>, a dependency of <code>yt-dlp</code>, to make the loop above.</p>
-<pre><code class="language-plaintext">ffmpeg -i input.mp4 -filter_complex &quot;[0:v]reverse,fifo[r];[0:v][r] concat=n=2:v=1 [v]&quot; -map &quot;[v]&quot; output.mp4
+<pre><code class="language-plaintext">ffmpeg -i input.mp4 -filter_complex "[0:v]reverse,fifo[r];[0:v][r] concat=n=2:v=1 [v]" -map "[v]" output.mp4
 </code></pre>
 <p>The command <a href="https://stackoverflow.com/questions/42257354/concat-a-video-with-itself-but-in-reverse-using-ffmpeg">concatenates a reversed version of the clip to itself</a>.</p>
 

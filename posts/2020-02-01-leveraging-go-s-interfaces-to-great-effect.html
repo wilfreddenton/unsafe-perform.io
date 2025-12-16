@@ -40,7 +40,7 @@ date = 2020-02-01
 }
 </code></pre>
 <p>As the handler deals specifically with creating products, it only uses a few of the methods provided by this set of structs. As a result, the function signature doesn't tell us about the specific behavior of the handler or the side effects it produces. Worse, its coupled to the implementation of the structs. If we were to change their names, split one into multiple, or move methods from one to another, we'd have to modify the handler as well.</p>
-<p>With interfaces, we can solve these problems by grouping actions into &quot;effects&quot;.</p>
+<p>With interfaces, we can solve these problems by grouping actions into "effects".</p>
 <pre><code class="language-go">type loggerEff interface { ... }
 type authEff interface { ... }
 type baseHandlerEff interface {
@@ -63,7 +63,7 @@ func createProductHandler(
 }
 </code></pre>
 <p>The handler's signature now contains a great deal of <strong>semantic information</strong>. It specifies the side effects the procedure will produce and gives the reader a general understanding of the handler's purpose. The business logic has been <strong>decoupled</strong> from the implementation details. The handler no longer has to change if we modify the structs that implement the interfaces. We created a way to <strong>inject dependencies</strong> into the handler, greatly reducing the burden of argument passing. We can <strong>mock</strong> the interfaces which significantly improves the testability of the handler.</p>
-<p>To further understand the pattern, let's explore a runnable example. A web server example would require a number of dependencies that, when wired together, create an opinionated &quot;framework&quot;. This would <em>incorrectly</em> imply that the pattern is tied to a framework and relegated to web servers. Instead, let's create a fun little guessing game. You can find the full code <a href="https://github.com/wilfreddenton/gophects">here</a>.</p>
+<p>To further understand the pattern, let's explore a runnable example. A web server example would require a number of dependencies that, when wired together, create an opinionated "framework". This would <em>incorrectly</em> imply that the pattern is tied to a framework and relegated to web servers. Instead, let's create a fun little guessing game. You can find the full code <a href="https://github.com/wilfreddenton/gophects">here</a>.</p>
 <p>The game asks the player to input a number of <code>turns</code>, a <code>low</code> number, and a <code>high</code> number. Once the game has been configured, it will randomly select a hidden number between <code>low</code> and <code>high</code>. It’s the player's job to guess the number in <code>turns</code> attempts.</p>
 <p>Consider the effects that could help us here. We need some way to interact with the user. These actions can be grouped in what we'll call the console effect. We also need a way to generate random numbers. Let’s call that the random effect. Notice that we've zeroed in on the parts of the app that perform IO.</p>
 <p>Let's specify the console effect.</p>
@@ -87,13 +87,13 @@ func createProductHandler(
 </code></pre>
 <p><code>putStr</code> simply appends the provided string to <code>out</code>.</p>
 <pre><code class="language-go">func (p *consoleMock) putStrLn(s string) {
-	p.putStr(s + &quot;\n&quot;)
+	p.putStr(s + "\n")
 }
 </code></pre>
 <p><code>putStrLn</code> is the same as <code>putStr</code> except it tacks on a newline.</p>
 <pre><code class="language-go">func (p *consoleMock) getLine(s string) string {
 	in := p.in[0]
-	p.putStrLn(fmt.Sprintf(&quot;%s%v&quot;, s, in))
+	p.putStrLn(fmt.Sprintf("%s%v", s, in))
 	p.in = p.in[1:]
 	return in
 }
@@ -102,12 +102,12 @@ func createProductHandler(
 <p>While we're still not certain how the entire program will look, we know we need a way to read in settings from the user.</p>
 <pre><code class="language-go">func getTurns(ctx consoleEff) int {
 	for {
-		turnsS := ctx.getLine(&quot;turns: &quot;)
+		turnsS := ctx.getLine("turns: ")
 		turns, err := strconv.Atoi(turnsS)
 		if err != nil {
-			ctx.putStrLn(turnsS + &quot; is not an int&quot;)
+			ctx.putStrLn(turnsS + " is not an int")
 		} else if turns &lt; 1 {
-			ctx.putStrLn(&quot;turns must be &gt; 0&quot;)
+			ctx.putStrLn("turns must be &gt; 0")
 		} else {
 			return turns
 		}
@@ -123,7 +123,7 @@ func createProductHandler(
 }
 
 func TestGetTurns(t *testing.T) {
-	ctx := &amp;consoleMock{in: []string{&quot;t&quot;, &quot;0&quot;, &quot;1&quot;}}
+	ctx := &amp;consoleMock{in: []string{"t", "0", "1"}}
 	turns := getTurns(ctx)
 	assert(t, turns, 1)
 	assert(t, ctx.out, `turns: t
@@ -144,7 +144,7 @@ turns: 1
 }
 
 func setup(ctx consoleEff) *settings {
-	ctx.putStrLn(&quot;Guessing Game&quot;)
+	ctx.putStrLn("Guessing Game")
 
 	turns := getTurns(ctx)
 	lo := getLow(ctx)
@@ -152,10 +152,10 @@ func setup(ctx consoleEff) *settings {
 	return &amp;settings{turns, lo, hi}
 }
 </code></pre>
-<p>Notice how this function passes the context to <code>getTurns</code>,  <code>getLow</code>, and <code>getHigh</code>. When &quot;contextualizing&quot; child functions, the child's constraints must be a subset of the parent's.</p>
+<p>Notice how this function passes the context to <code>getTurns</code>,  <code>getLow</code>, and <code>getHigh</code>. When "contextualizing" child functions, the child's constraints must be a subset of the parent's.</p>
 <p>The test for <code>setup</code> is similar to the ones we've already written:</p>
 <pre><code class="language-go">func TestSetup(t *testing.T) {
-	ctx := &amp;consoleMock{in: []string{&quot;5&quot;, &quot;1&quot;, &quot;10&quot;}}
+	ctx := &amp;consoleMock{in: []string{"5", "1", "10"}}
 	r := setup(ctx)
 	assert(t, r.turns, 5)
 	assert(t, r.lo, 1)
@@ -182,7 +182,7 @@ func (r *randMock) randomR(lo, hi int) int {
 	return r.n
 }
 </code></pre>
-<p><code>randMock</code> keeps track of the most recently generated &quot;random&quot; number in <code>n</code>. This mock implementation just returns the average of <code>lo</code> and <code>hi</code>. It could have been implemented many different ways; for example, <code>lo + 1</code> or <code>hi - 1</code>. The important thing is that it <em>deterministically</em> produces the value so we can rely on our tests running the same every time.</p>
+<p><code>randMock</code> keeps track of the most recently generated "random" number in <code>n</code>. This mock implementation just returns the average of <code>lo</code> and <code>hi</code>. It could have been implemented many different ways; for example, <code>lo + 1</code> or <code>hi - 1</code>. The important thing is that it <em>deterministically</em> produces the value so we can rely on our tests running the same every time.</p>
 <p>Now that we have an implementation for <code>randEff</code> we can write the <code>play</code> portion of our game.</p>
 <pre><code class="language-go">type playEff interface {
 	consoleEff
@@ -194,26 +194,26 @@ func play(ctx playEff, s *settings) {
 	i := s.turns
 
 	for i &gt; 0 {
-		gS := ctx.getLine(&quot;guess: &quot;)
+		gS := ctx.getLine("guess: ")
 		g, err := strconv.Atoi(gS)
 		if err != nil {
-			ctx.putStrLn(gS + &quot; is not an int&quot;)
+			ctx.putStrLn(gS + " is not an int")
 			continue
 		}
 
 		if g &lt; n {
-			ctx.putStrLn(&quot;higher&quot;)
+			ctx.putStrLn("higher")
 		} else if g &gt; n {
-			ctx.putStrLn(&quot;lower&quot;)
+			ctx.putStrLn("lower")
 		} else {
-			ctx.putStrLn(gS + &quot; is correct&quot;)
+			ctx.putStrLn(gS + " is correct")
 			return
 		}
 
 		i -= 1
 	}
 
-	ctx.putStrLn(&quot;game over&quot;)
+	ctx.putStrLn("game over")
 }
 </code></pre>
 <p>I'll leave it to you to read and understand the business logic. Notice that <code>play</code> takes a context that implements <code>playEff</code>. This is different from what we've seen before. Interface inheritance allows us to compose <code>consoleEff</code> and <code>randEff</code> to create <code>playEff</code>. At a glance, we know that <code>play</code> will be interacting with the player and generating random numbers.</p>
@@ -222,7 +222,7 @@ func play(ctx playEff, s *settings) {
 	ctx := struct {
 		*consoleMock
 		*randMock
-	}{&amp;consoleMock{in: []string{&quot;x&quot;, &quot;3&quot;, &quot;7&quot;, &quot;5&quot;}}, &amp;randMock{}}
+	}{&amp;consoleMock{in: []string{"x", "3", "7", "5"}}, &amp;randMock{}}
 	r := &amp;settings{3, 1, 10}
 	play(ctx, r)
 	assert(t, ctx.n, 5)
@@ -241,7 +241,7 @@ func TestPlayLoss(t *testing.T) {
 	ctx := struct {
 		*consoleMock
 		*randMock
-	}{&amp;consoleMock{in: []string{&quot;x&quot;, &quot;3&quot;, &quot;7&quot;}}, &amp;randMock{}}
+	}{&amp;consoleMock{in: []string{"x", "3", "7"}}, &amp;randMock{}}
 	r := &amp;settings{1, 1, 10}
 	play(ctx, r)
 	assert(t, ctx.out, `guess: x

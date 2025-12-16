@@ -33,7 +33,7 @@ date = 2020-02-21
 <pre><code class="language-typescript">async function applyMany&lt;A&gt;(ahts: [Promise&lt;A&gt;, (a: A) =&gt; void][]): Promise&lt;void&gt;
 </code></pre>
 <p>The problem is that <code>A</code> constrains every tuple in the list. <code>applyMany</code> should <em>only</em> care about the compatibility of the action and the handler within each tuple.</p>
-<p>The solution is <a href="https://wiki.haskell.org/Existential_type">Existential Quantification</a>. It can be used to &quot;hide&quot; types that are <em>not</em> meaningful externally. Unfortunately, TypeScript does not explicitly support existential quantification.<sup class="footnote-reference"><a href="#no-support">1</a></sup> It is possible however, to &quot;wrap&quot; over the extra type with clever use of closure and type inference.<sup class="footnote-reference"><a href="#clever">2</a></sup> Examples of this cleverness were initially difficult for me to decipher, in part, due to my shaky understanding of existential quantification.</p>
+<p>The solution is <a href="https://wiki.haskell.org/Existential_type">Existential Quantification</a>. It can be used to "hide" types that are <em>not</em> meaningful externally. Unfortunately, TypeScript does not explicitly support existential quantification.<sup class="footnote-reference"><a href="#no-support">1</a></sup> It is possible however, to "wrap" over the extra type with clever use of closure and type inference.<sup class="footnote-reference"><a href="#clever">2</a></sup> Examples of this cleverness were initially difficult for me to decipher, in part, due to my shaky understanding of existential quantification.</p>
 <p>While researching the topic, I came across a <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#existentially-quantified-data-constructors">section</a> in the GHC user guide that briefly discusses existential quantification in the context of Haskell. Coincidentally, the example it presents is isomorphic to my problem. I decided to implement the example in TypeScript as an exercise. Before working through this example, let's cover some fundamentals.</p>
 <h2>Generic Functions in TypeScript</h2>
 <pre><code class="language-typescript">function id&lt;A&gt;(a: A): A {
@@ -87,7 +87,7 @@ const ahtBool: AHT&lt;boolean&gt; = [Promise.resolve(true), (a) =&gt; console.lo
 <pre><code class="language-haskell">MkFoo :: forall a. a -&gt; (a -&gt; Bool) -&gt; Foo
 Nil   :: Foo
 </code></pre>
-<p><code>MkFoo</code> is clearly the function of interest. <code>forall a.</code> &quot;existentializes&quot; the type variable <code>a</code> removing it from the left side of the <code>=</code>. The use of <code>forall</code> to <strong>exist</strong>entially quantify a type variable is the source of much confusion. To avoid introducing an additional keyword <code>exists</code>, the implementers leveraged a recontextualisation of De Morgan's laws within type theory that describes an isomorphism between <code>exists</code> and <code>forall</code>.<sup class="footnote-reference"><a href="#forall">3</a></sup> Barring all that ivory tower stuff, I just think of it like this:</p>
+<p><code>MkFoo</code> is clearly the function of interest. <code>forall a.</code> "existentializes" the type variable <code>a</code> removing it from the left side of the <code>=</code>. The use of <code>forall</code> to <strong>exist</strong>entially quantify a type variable is the source of much confusion. To avoid introducing an additional keyword <code>exists</code>, the implementers leveraged a recontextualisation of De Morgan's laws within type theory that describes an isomorphism between <code>exists</code> and <code>forall</code>.<sup class="footnote-reference"><a href="#forall">3</a></sup> Barring all that ivory tower stuff, I just think of it like this:</p>
 <blockquote>
 <p><code>MkFoo</code> constructs a <code>Foo</code> <code>forall</code> types <code>a</code>.</p>
 </blockquote>
@@ -110,11 +110,11 @@ Nil   :: Foo
 <p>The inner function infers <code>A</code> from the <code>MkFoo_</code> argument. As it is a function, it must return something. An additional type variable <code>R</code> is used to avoid constraining what can be returned. With only this layer, <code>R</code> would appear on the left of the <code>=</code> so an additionally layer is necessary.</p>
 <pre><code class="language-typescript">&lt;R&gt;(run: &lt;A&gt;(_: MkFoo_&lt;A&gt;) =&gt; R) =&gt; R
 </code></pre>
-<p>This function is able to infer <code>R</code> from the inner layer <code>run</code>. You may recognize the &quot;shape&quot; <code>((_ -&gt; r) -&gt; r)</code> which is common in <a href="https://en.wikipedia.org/wiki/Continuation-passing_style">continuation passing style</a> programming. This <a href="https://rubenpieters.github.io/programming/typescript/2018/07/13/existential-types-typescript.html">blog post</a> explains existential quantification in TypeScript through the lens of CPS.</p>
+<p>This function is able to infer <code>R</code> from the inner layer <code>run</code>. You may recognize the "shape" <code>((_ -&gt; r) -&gt; r)</code> which is common in <a href="https://en.wikipedia.org/wiki/Continuation-passing_style">continuation passing style</a> programming. This <a href="https://rubenpieters.github.io/programming/typescript/2018/07/13/existential-types-typescript.html">blog post</a> explains existential quantification in TypeScript through the lens of CPS.</p>
 <p>Now we need a constructor for <code>MkFoo</code>:</p>
 <pre><code class="language-typescript">const mkFoo = &lt;A&gt;(mkFoo_: MkFoo_&lt;A&gt;): MkFoo =&gt; (run) =&gt; run(mkFoo_)
 </code></pre>
-<p>This wraps a <code>MkFoo_</code> in the layers just described. By accepting a <code>run</code> function, a <code>MkFoo</code> provides the ability for an external entity to &quot;reach in&quot; and safely interact with the hidden <code>MkFoo_</code>. It's a bit like the <a href="https://youtu.be/Sci99roo2iI"><em>What's in the Box?</em> challenge</a>.</p>
+<p>This wraps a <code>MkFoo_</code> in the layers just described. By accepting a <code>run</code> function, a <code>MkFoo</code> provides the ability for an external entity to "reach in" and safely interact with the hidden <code>MkFoo_</code>. It's a bit like the <a href="https://youtu.be/Sci99roo2iI"><em>What's in the Box?</em> challenge</a>.</p>
 <p>Finally, we can create the list of <code>Foo</code>s:</p>
 <pre><code class="language-typescript">const foos = [
   mkFoo([3, (a) =&gt; a % 2 === 0]),
@@ -122,7 +122,7 @@ Nil   :: Foo
   null
 ]
 </code></pre>
-<p>Notice that we don't have to explicitly fill in any type variables. In the first <code>Foo</code>, <code>A</code> is inferred to be <code>number</code>. In the second, <code>A</code> is inferred to be <code>string</code>. <code>A</code> is now &quot;closed over&quot; but <code>R</code> still needs filling.</p>
+<p>Notice that we don't have to explicitly fill in any type variables. In the first <code>Foo</code>, <code>A</code> is inferred to be <code>number</code>. In the second, <code>A</code> is inferred to be <code>string</code>. <code>A</code> is now "closed over" but <code>R</code> still needs filling.</p>
 <pre><code class="language-typescript">const f = (foo: Foo): boolean =&gt; {
   if (foo === null) return false
   return foo(([v, h]) =&gt; h(v))
@@ -160,7 +160,7 @@ const sum: Fold&lt;number, number&gt; = (run) =&gt;
 <pre><code class="language-typescript">const fold = &lt;A, B&gt;(f: Fold&lt;A, B&gt;, fa: Foldable&lt;A&gt;): B =&gt;
   f(({ step, initial, extract }) =&gt; extract(fa.reduce(step, initial)))
 </code></pre>
-<p>Notice how similar this is to the <code>f</code> function defined in the <code>Foo</code> example. It takes a <code>Fold</code> <code>f</code> and applies it to a <code>Foldable</code> <code>fa</code>. Wait, what's a <code>Foldable</code>? You may be wondering why I keep using the word &quot;structure&quot; instead of just saying list. Well, what if we want to fold a linked list or a binary tree? Basically any structure that contains elements of a specific type can be folded. The structure just has to have a <code>reduce</code> method. Conveniently, the <code>[]</code> type already does. Let's define a <code>Foldable</code> interface and then create a new <code>Tree</code> structure that implements it.</p>
+<p>Notice how similar this is to the <code>f</code> function defined in the <code>Foo</code> example. It takes a <code>Fold</code> <code>f</code> and applies it to a <code>Foldable</code> <code>fa</code>. Wait, what's a <code>Foldable</code>? You may be wondering why I keep using the word "structure" instead of just saying list. Well, what if we want to fold a linked list or a binary tree? Basically any structure that contains elements of a specific type can be folded. The structure just has to have a <code>reduce</code> method. Conveniently, the <code>[]</code> type already does. Let's define a <code>Foldable</code> interface and then create a new <code>Tree</code> structure that implements it.</p>
 <pre><code class="language-typescript">type Reduce&lt;A&gt; = &lt;X&gt;(step: (x: X, a: A) =&gt; X, init: X) =&gt; X
 
 interface Foldable&lt;A&gt; {
@@ -171,7 +171,7 @@ interface Foldable&lt;A&gt; {
 <p>Next, let's define a <code>Tree</code>. A Haskell implementation might look something like this:<sup class="footnote-reference"><a href="#tree">4</a></sup></p>
 <pre><code class="language-haskell">data Tree a = Empty | Leaf a | Node (Tree a) a (Tree a)
 </code></pre>
-<p>This data type is recursive in that a <code>Node</code>, one of the <code>Tree</code>'s data constructor, takes a left <code>Tree</code> and a right <code>Tree</code>. TypeScript does not support recursive type aliases but it does have &quot;recursive back references within interface types.&quot;<sup class="footnote-reference"><a href="#recursive">5</a></sup></p>
+<p>This data type is recursive in that a <code>Node</code>, one of the <code>Tree</code>'s data constructor, takes a left <code>Tree</code> and a right <code>Tree</code>. TypeScript does not support recursive type aliases but it does have "recursive back references within interface types."<sup class="footnote-reference"><a href="#recursive">5</a></sup></p>
 <p>This example was provided by the creator of TypeScript <a href="https://github.com/ahejlsberg">himself</a>.</p>
 <p>Unfortunately we can't quite replicate the elegance of the Haskell definition in TypeScript because we need a <code>class</code> on which to define <code>reduce</code>.</p>
 <pre><code class="language-typescript">type Root&lt;A&gt; = Empty | Leaf&lt;A&gt; | Node&lt;A&gt;
@@ -272,7 +272,7 @@ fold(nub(), testTree) // [1, 2, 3]
 <p>All this code can be viewed in the <a href="https://github.com/wilfreddenton/fold-ts"><code>fold-ts</code></a> repo. Maybe you'll find some use for it. If you'd like to contribute additional folds please submit a PR!</p>
 <p>If this type level trickery still confuses you, there are plenty of other examples.<sup class="footnote-reference"><a href="#examples">7</a></sup></p>
 <h2>Existential Crisis</h2>
-<p>It's unfortunate that a seemingly trivial problem leads to such a complex solution. So far, the only two &quot;mainstream&quot; languages that have explicit implementations of existential quantification are Haskell and Scala. It would be greatly beneficial for a language like TypeScript, one that is accessible to many, to introduce the concept to the programming masses. It's a powerful feature and one that should be in every developers playbook or at least on their radar.</p>
+<p>It's unfortunate that a seemingly trivial problem leads to such a complex solution. So far, the only two "mainstream" languages that have explicit implementations of existential quantification are Haskell and Scala. It would be greatly beneficial for a language like TypeScript, one that is accessible to many, to introduce the concept to the programming masses. It's a powerful feature and one that should be in every developers playbook or at least on their radar.</p>
 <div class="footnote-definition" id="no-support"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://github.com/Microsoft/TypeScript/issues/14466">Existential Type?</a></p>
 </div>
@@ -293,12 +293,12 @@ fold(nub(), testTree) // [1, 2, 3]
 </div>
 <div class="footnote-definition" id="examples"><sup class="footnote-definition-label">7</sup>
 <p>Examples</p>
+</div>
 <ul>
 <li><a href="https://rubenpieters.github.io/programming/typescript/2018/07/13/existential-types-typescript.html">Encoding Existential Types in TypeScript</a></li>
 <li><a href="https://stackoverflow.com/questions/51815782/typescript-array-of-different-generic-types">Typescript array of different generic types</a></li>
 <li><a href="https://stackoverflow.com/questions/46185023/how-do-i-type-parameterize-a-tuple">How do I type parameterize a tuple?</a></li>
 </ul>
-</div>
 
 </section>
 <script src="https://utteranc.es/client.js"

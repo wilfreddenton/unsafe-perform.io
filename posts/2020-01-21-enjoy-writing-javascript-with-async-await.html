@@ -41,7 +41,7 @@ date = 2020-01-21
   })
 }
 </code></pre>
-<p>In the example above, the familiar <code>setTimeout</code> function is being &quot;promisified&quot; to create a convenient <code>sleep</code> function. At the bottom &quot;layer&quot;, there's a call to the <code>resolve</code> function provided by the promise. <code>resolve</code> is mostly synonymous with <code>return</code>. Whatever value we <code>resolve</code>, in this case <code>ms</code>, can be thought of as the return value of the promise. Because <code>resolve</code> is invoked within the callback function of <code>setTimeout</code>, the promise will &quot;return&quot; after <code>ms</code> milliseconds. Historically, to synchronize this promise, we would use <code>sleep(ms).then(...)</code> but with <code>async/await</code> we can just <code>await sleep(ms)</code>. This layering/wrapping pattern can be used to &quot;modernize&quot; any legacy higher-order function. Suppose you want to use <code>fs.readFile</code>, wrap it in a promise, and then call it with <code>await</code>.</p>
+<p>In the example above, the familiar <code>setTimeout</code> function is being "promisified" to create a convenient <code>sleep</code> function. At the bottom "layer", there's a call to the <code>resolve</code> function provided by the promise. <code>resolve</code> is mostly synonymous with <code>return</code>. Whatever value we <code>resolve</code>, in this case <code>ms</code>, can be thought of as the return value of the promise. Because <code>resolve</code> is invoked within the callback function of <code>setTimeout</code>, the promise will "return" after <code>ms</code> milliseconds. Historically, to synchronize this promise, we would use <code>sleep(ms).then(...)</code> but with <code>async/await</code> we can just <code>await sleep(ms)</code>. This layering/wrapping pattern can be used to "modernize" any legacy higher-order function. Suppose you want to use <code>fs.readFile</code>, wrap it in a promise, and then call it with <code>await</code>.</p>
 <h2>Composing Async Functions</h2>
 <pre><code class="language-javascript">// sync version
 function main() {
@@ -88,7 +88,7 @@ main()
 3000
 6 seconds elapsed
 </code></pre>
-<p>From the output it is clear that the calls to <code>sleep</code> are running synchronously and do not &quot;overlap&quot; in any way.</p>
+<p>From the output it is clear that the calls to <code>sleep</code> are running synchronously and do not "overlap" in any way.</p>
 <h2>Running Async Functions Concurrently</h2>
 <p>Sometimes we don't want to run a set of async actions synchronously. Instead we'd like to compose them into a single async action that runs the sub-actions concurrently.</p>
 <p>Pretend that <code>sleep(1000)</code>, <code>sleep(2000)</code>, and <code>sleep(3000)</code> are all requests to some API that fetch data and have <code>ms</code> latency. The requests are totally independent so they can be performed concurrently. If we <code>await</code> each one sequentially like in the previous example, we are waiting unnecessarily long. As requests are typically IO bound, sending request concurrently provides a significant performance boost.</p>
