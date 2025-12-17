@@ -1,109 +1,133 @@
 @font-face {
-	font-family: 'Iosevka Aile Web';
-	font-display: swap;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	src: url('ttf/iosevka-aile-regular.ttf') format('truetype'), url('woff2/iosevka-aile-regular.woff2') format('woff2');
+  font-family: "Iosevka Aile Web";
+  font-display: swap;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  src:
+    url("ttf/iosevka-aile-regular.ttf") format("truetype"),
+    url("woff2/iosevka-aile-regular.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: 'Iosevka Aile Web';
-	font-display: swap;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: oblique;
-	src: url('ttf/iosevka-aile-oblique.ttf') format('truetype'), url('woff2/iosevka-aile-oblique.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Iosevka Aile Web';
-	font-display: swap;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: italic;
-	src: url('ttf/iosevka-aile-italic.ttf') format('truetype'), url('woff2/iosevka-aile-italic.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Iosevka Aile Web';
-	font-display: swap;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	src: url('ttf/iosevka-aile-heavy.ttf') format('truetype'), url('woff2/iosevka-aile-heavy.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Iosevka Aile Web';
-	font-display: swap;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: oblique;
-	src: url('ttf/iosevka-aile-heavyoblique.ttf') format('truetype'), url('woff2/iosevka-aile-heavyoblique.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Iosevka Aile Web';
-	font-display: swap;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: italic;
-	src: url('ttf/iosevka-aile-heavyitalic.ttf') format('truetype'), url('woff2/iosevka-aile-heavyitalic.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Iosevka Term Web';
-	font-display: swap;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	src: url('ttf/iosevka-term-regular.ttf') format('truetype'), url('woff2/iosevka-term-regular.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Iosevka Term Web Oblique';
-	font-display: swap;
-	font-weight: normal;
-	font-stretch: normal;
+  font-family: "Iosevka Aile Web";
+  font-display: swap;
+  font-weight: normal;
+  font-stretch: normal;
   font-style: oblique;
-	src: url('ttf/iosevka-term-oblique.ttf') format('truetype'), url('woff2/iosevka-term-oblique.woff2') format('woff2');
+  src:
+    url("ttf/iosevka-aile-oblique.ttf") format("truetype"),
+    url("woff2/iosevka-aile-oblique.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: 'Iosevka Term Web';
-	font-display: swap;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: italic;
-	src: url('ttf/iosevka-term-italic.ttf') format('truetype'), url('woff2/iosevka-term-italic.woff2') format('woff2');
+  font-family: "Iosevka Aile Web";
+  font-display: swap;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  src:
+    url("ttf/iosevka-aile-italic.ttf") format("truetype"),
+    url("woff2/iosevka-aile-italic.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: 'Iosevka Term Web';
-	font-display: swap;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: normal;
-	src: url('ttf/iosevka-term-heavy.ttf') format('truetype'), url('woff2/iosevka-term-heavy.woff2') format('woff2');
+  font-family: "Iosevka Aile Web";
+  font-display: swap;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  src:
+    url("ttf/iosevka-aile-heavy.ttf") format("truetype"),
+    url("woff2/iosevka-aile-heavy.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: 'Iosevka Term Web';
-	font-display: swap;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: oblique;
-	src: url('ttf/iosevka-term-heavyoblique.ttf') format('truetype'), url('woff2/iosevka-term-heavyoblique.woff2') format('woff2');
+  font-family: "Iosevka Aile Web";
+  font-display: swap;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: oblique;
+  src:
+    url("ttf/iosevka-aile-heavyoblique.ttf") format("truetype"),
+    url("woff2/iosevka-aile-heavyoblique.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: 'Iosevka Term Web';
-	font-display: swap;
-	font-weight: bold;
-	font-stretch: normal;
-	font-style: italic;
-	src: url('ttf/iosevka-term-heavyitalic.ttf') format('truetype'), url('woff2/iosevka-term-heavyitalic.woff2') format('woff2');
+  font-family: "Iosevka Aile Web";
+  font-display: swap;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: italic;
+  src:
+    url("ttf/iosevka-aile-heavyitalic.ttf") format("truetype"),
+    url("woff2/iosevka-aile-heavyitalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Iosevka Term Web";
+  font-display: swap;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  src:
+    url("ttf/iosevka-term-regular.ttf") format("truetype"),
+    url("woff2/iosevka-term-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Iosevka Term Web Oblique";
+  font-display: swap;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: oblique;
+  src:
+    url("ttf/iosevka-term-oblique.ttf") format("truetype"),
+    url("woff2/iosevka-term-oblique.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Iosevka Term Web";
+  font-display: swap;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  src:
+    url("ttf/iosevka-term-italic.ttf") format("truetype"),
+    url("woff2/iosevka-term-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Iosevka Term Web";
+  font-display: swap;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  src:
+    url("ttf/iosevka-term-heavy.ttf") format("truetype"),
+    url("woff2/iosevka-term-heavy.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Iosevka Term Web";
+  font-display: swap;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: oblique;
+  src:
+    url("ttf/iosevka-term-heavyoblique.ttf") format("truetype"),
+    url("woff2/iosevka-term-heavyoblique.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Iosevka Term Web";
+  font-display: swap;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: italic;
+  src:
+    url("ttf/iosevka-term-heavyitalic.ttf") format("truetype"),
+    url("woff2/iosevka-term-heavyitalic.woff2") format("woff2");
 }
 
 *,
@@ -113,129 +137,141 @@
 }
 
 html {
-	font-size: 62.5%;
-	scrollbar-width: thin;
+  font-size: 62.5%;
+  scrollbar-width: thin;
   scrollbar-color: #626483 #282936;
 }
 
 body {
-  font-family: 'Iosevka Aile Web', sans-serif;
-	font-size: 1.4rem;
-	line-height: 1.9;
-	background-color: #282a36;
-	/*color: #f8f8f2;*/
-	color: hsla(60, 30%, 96%, 0.8);
-	margin: 0 1.2rem;
+  font-family: "Iosevka Aile Web", sans-serif;
+  font-size: 1.4rem;
+  line-height: 1.9;
+  background-color: #282a36;
+  /*color: #f8f8f2;*/
+  color: hsla(60, 30%, 96%, 0.8);
+  margin: 0 1.2rem;
 }
 
 h1 {
-	font-size: 2.4rem;
-	margin-top: 8rem;
+  font-size: 2.4rem;
+  margin-top: 8rem;
 }
 
 h2 {
-	margin-top: 8rem;
+  margin-top: 8rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	color: #ff79c6;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #ff79c6;
 }
 
 ul {
-	padding: 0;
+  padding: 0;
 }
 
 ul li {
-	list-style-type: none;
+  list-style-type: none;
 }
 
 a {
-	color: #8be9fd;
-	text-decoration: none;
+  color: #8be9fd;
+  text-decoration: none;
 }
 a:hover {
-	border-bottom: 1px solid;
-	margin-bottom: -1px;
+  border-bottom: 1px solid;
+  margin-bottom: -1px;
 }
 
-code, pre {
-	color: #f8f8f2;
-  font-family: 'Iosevka Term Web', monospace;
-	scrollbar-width: thin;
+pre {
+  overflow-x: auto;
+}
+
+code,
+pre {
+  color: #f8f8f2;
+  font-family: "Iosevka Term Web", monospace;
+  scrollbar-width: thin;
   scrollbar-color: #626483 #282936;
 }
 
-p code, .breadcrumb {
-	padding: 0.2rem 0.4rem;
-	border-radius: 3px;
-	background: rgba(80, 250, 123, 0.2);
+p code,
+.breadcrumb {
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  background: rgba(80, 250, 123, 0.2);
 }
 
 blockquote {
-	margin: 3rem 0;
-	padding-left: 3rem;
-	border-left: 1px solid #50fa7b;
+  margin: 3rem 0;
+  padding-left: 3rem;
+  border-left: 1px solid #50fa7b;
 }
 
-video, img {
+video,
+img {
   position: relative;
   width: 100%;
 }
 
 nav {
-	margin: 3rem 0;
+  margin: 3rem 0;
 }
 
 nav a {
-	display: inline-block;
+  display: inline-block;
 }
 
 footer {
-	font-size: 1.2rem;
-	margin-top: 12rem;
+  font-size: 1.2rem;
+  margin-top: 12rem;
 }
 
 #markea {
-  clip-path: url('#shape-hex');
-	height: 110px;
-	width: 110px;
-	display: block;
-	position: relative;
+  clip-path: url("#shape-hex");
+  height: 110px;
+  width: 110px;
+  display: block;
+  position: relative;
 }
 
 #markea > div {
-	background-image: url('https://ipfs.io/ipfs/QmTnVTonhwVc7wgFTMCb5MxmCYhGebLgGYSRUmUmEchqig/nft.jpg');
+  background-image: url("https://ipfs.io/ipfs/QmTnVTonhwVc7wgFTMCb5MxmCYhGebLgGYSRUmUmEchqig/nft.jpg");
   background-size: cover;
-	background-position: center;
+  background-position: center;
   width: 100%;
   height: 100%;
 }
 
 #markea:hover {
-	margin-bottom: 0;
-	border: 0;
+  margin-bottom: 0;
+  border: 0;
 }
 
 #title {
-	margin-bottom: 1px;
-	font-style: oblique;
+  margin-bottom: 1px;
+  font-style: oblique;
 }
 
 #title a {
-	color: #ff79c6;
+  color: #ff79c6;
 }
 
 #by-line {
-	font-size: 1.2rem;
-	font-weight: normal;
+  font-size: 1.2rem;
+  font-weight: normal;
   color: #50fa7b;
-	margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 #about-summary {
-	font-size: 1.4rem;
+  font-size: 1.4rem;
   color: #50fa7b;
-	margin-top: 0;
+  margin-top: 0;
 }
 
 #container {
@@ -249,7 +285,7 @@ footer {
 }
 
 #posts-list .posts-list-item {
-	padding: 0.6rem 0;
+  padding: 0.6rem 0;
 }
 
 #posts-list .posts-list-item a {
@@ -258,45 +294,45 @@ footer {
 }
 
 #posts-list .posts-list-item .posts-list-item-title {
-	color: #ff79c6;
+  color: #ff79c6;
   flex-grow: 8;
 }
 
 #posts-list .posts-list-item .posts-list-item-time {
   flex-grow: 4;
   text-align: right;
-	color: #6272a4;
-	font-size: 1.2rem;
+  color: #6272a4;
+  font-size: 1.2rem;
 }
 
 .footnote-definition {
-	margin-top: 1rem;
-	padding-left: 1.2rem;
-	font-size: 1.2rem;
+  margin-top: 1rem;
+  padding-left: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .footnote-definition:first-of-type {
-	margin-top: 8rem;
-	border-top: 1px solid #50fa7b;
-	padding-top: 4rem;
+  margin-top: 8rem;
+  border-top: 1px solid #50fa7b;
+  padding-top: 4rem;
 }
 
 .footnote-definition p {
-	margin: 0;
-	display: inline;
+  margin: 0;
+  display: inline;
 }
 
 .footnote-definition ul {
-	margin-left: 1.2rem;
-	margin-top: 0;
+  margin-left: 1.2rem;
+  margin-top: 0;
 }
 
 .utterances {
-	margin-top: 8rem;
+  margin-top: 8rem;
 }
 
 .location {
-	color: #50fa7b;
+  color: #50fa7b;
 }
 
 @media (max-width: 576px) {
