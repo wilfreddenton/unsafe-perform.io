@@ -124,4 +124,9 @@ To get two-finger swipe navigation to work install the "Swipe Navigation Gesture
 
 ## Syncthing
 
-The simplest way to setup Syncthing is to download the `syncthing-linux-arm64` tar from the [latest release on github](https://github.com/syncthing/syncthing/releases/latest). There's a `syncthing` binary in the unpacked dir. Add this binary to your path in `.bashrc`. Then follow the [autostart guide for linux](https://docs.syncthing.net/users/autostart.html#linux) to get it to launch. Syncthing can be installed with `dnf` but it is an old version.
+The simplest way to setup [Syncthing](https://syncthing.net) is to download the `syncthing-linux-arm64` tar from the [latest release on github](https://github.com/syncthing/syncthing/releases/latest). There's a `syncthing` binary in the unpacked dir. Add this binary to your path in `.bashrc`. Then follow the [autostart guide for linux](https://docs.syncthing.net/users/autostart.html#linux) to get it to launch. Syncthing can be installed with `dnf` but it is an old version.
+
+## Upscayl
+
+The [open source image upscaler](https://upscayl.org) does not have any aarch64 pre-compiled binaries or instructions on how to build and install them. I have a guide on how to do that [here](/posts/2026-01-09-build-and-install-upscayl-on-linux-aarch64.html).
+
