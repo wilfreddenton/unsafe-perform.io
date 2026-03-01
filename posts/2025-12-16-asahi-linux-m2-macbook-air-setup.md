@@ -58,7 +58,7 @@ By default, Fedora Asahi Linux disables the screen area around the notch. This c
 To use the screen space around the notch, you need to add a kernel argument.
 
 ```bash
-sudo grubby --update-kernel=ALL --args="apple_dcp.show_notch=1"
+sudo grubby --update-kernel=ALL --args="appledrm.show_notch=1"
 ```
 
 This requires a restart to take effect.
