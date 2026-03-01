@@ -58,7 +58,7 @@ date = 2025-12-16
 <h2>Enable Notch Screen Area</h2>
 <p>By default, Fedora Asahi Linux disables the screen area around the notch. This creates a "bezel" effect where the top of the screen is a black bar.</p>
 <p>To use the screen space around the notch, you need to add a kernel argument.</p>
-<pre><code class="language-bash">sudo grubby --update-kernel=ALL --args="apple_dcp.show_notch=1"
+<pre><code class="language-bash">sudo grubby --update-kernel=ALL --args="appledrm.show_notch=1"
 </code></pre>
 <p>This requires a restart to take effect.</p>
 <p>To move the clock in the top bar to the right (so it's not covered by the notch). Install the "Just Perfection" extension. In the extension settings set "Customize" -&gt; "Clock Menu Position" to "Right".</p>
